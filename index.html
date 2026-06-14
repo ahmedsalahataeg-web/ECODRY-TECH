@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECODRY TECH — Smart Hybrid Solar Dehydrator</title>
+<meta name="description" content="مشروع تخرج: تصميم وتنفيذ مجفف شمسي هجين ذكي لحفظ المحاصيل الزراعية بمحافظة سوهاج — فريق ECODRY TECH">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════════════════ */
+:root {
+  --bg-0:#030712; --bg-1:#0a1128; --bg-2:#111d35; --bg-3:#162040;
+  --glass:rgba(10,17,40,0.55); --glass2:rgba(10,17,40,0.75);
+  --solar:#fbbf24; --solar-d:#d97706; --solar-l:#fde68a;
+  --sky:#38bdf8; --sky-d:#0ea5e9;
+  --emerald:#34d399; --emerald-d:#10b981;
+  --red:#f87171; --violet:#a78bfa;
+  --t0:#f8fafc; --t1:#e2e8f0; --t2:#94a3b8; --t3:#64748b; --t4:#475569;
+  --b0:rgba(255,255,255,0.05); --b1:rgba(255,255,255,0.08); --b2:rgba(255,255,255,0.12);
+  --ff:'Cairo',sans-serif; --fe:'Outfit',sans-serif; --fm:'JetBrains Mono',monospace;
+  --r-sm:12px; --r-md:18px; --r-lg:26px; --r-xl:34px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:var(--ff);background:var(--bg-0);color:var(--t1);line-height:1.85;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+
+/* ═══ CUSTOM SCROLLBAR ═══ */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-0)}
+::-webkit-scrollbar-thumb{background:var(--solar-d);border-radius:8px}
+
+/* ═══ PARTICLE CANVAS ═══ */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ═══ AMBIENT GRADIENTS ═══ */
+.ambient{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 55% at 12% 15%,rgba(251,191,36,0.06),transparent),
+    radial-gradient(ellipse 60% 50% at 88% 80%,rgba(56,189,248,0.05),transparent),
+    radial-gradient(ellipse 45% 45% at 50% 50%,rgba(167,139,250,0.03),transparent);
+}
+
+/* ═══ LOADING SCREEN ═══ */
+.loader{position:fixed;inset:0;z-index:10000;background:var(--bg-0);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s}
+.loader.hide{opacity:0;visibility:hidden}
+.loader-ring{width:56px;height:56px;border:3px solid var(--b1);border-top-color:var(--solar);border-radius:50%;animation:spin 1s linear infinite}
+.loader p{margin-top:18px;font-size:.85rem;color:var(--t3);letter-spacing:2px;text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ═══════════════════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════════════════ */
+.nav{position:fixed;top:0;width:100%;z-index:1000;transition:all .4s var(--ease)}
+.nav.scrolled{backdrop-filter:blur(28px) saturate(1.6);background:rgba(3,7,18,0.82);border-bottom:1px solid var(--b0);box-shadow:0 4px 40px rgba(0,0,0,.35)}
+.nav-in{max-width:1180px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-brand{display:flex;align-items:center;gap:14px}
+.nav-brand img{height:36px;border-radius:10px;box-shadow:0 2px 12px rgba(251,191,36,.2)}
+.nav-brand span{font-family:var(--fe);font-weight:700;font-size:1.08rem;color:var(--t0);letter-spacing:.5px}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-links a{padding:8px 16px;border-radius:var(--r-sm);font-size:.82rem;font-weight:500;color:var(--t3);transition:all .25s;position:relative}
+.nav-links a:hover{color:var(--solar);background:rgba(251,191,36,.07)}
+.nav-links a.active{color:var(--solar);background:rgba(251,191,36,.08)}
+.nav-links a::after{content:'';position:absolute;bottom:4px;right:16px;left:16px;height:2px;background:var(--solar);border-radius:2px;transform:scaleX(0);transition:transform .3s var(--ease)}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}
+.nav-sep{width:1px;height:20px;background:var(--b1);margin:0 6px}
+.nav-page-link{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:var(--r-sm);font-size:.78rem;font-weight:600;border:1px solid;transition:all .25s}
+.nav-page-link.green{color:var(--emerald);border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.05)}
+.nav-page-link.green:hover{background:rgba(52,211,153,.12);border-color:var(--emerald);transform:translateY(-1px)}
+.nav-page-link.sky{color:var(--sky);border-color:rgba(56,189,248,.25);background:rgba(56,189,248,.05)}
+.nav-page-link.sky:hover{background:rgba(56,189,248,.12);border-color:var(--sky);transform:translateY(-1px)}
+
+/* ═══════════════════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════════════════ */
+.wrap{max-width:1140px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+section{padding:110px 0;position:relative}
+
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:3.5px;color:var(--solar);margin-bottom:16px}
+.eyebrow::before{content:'';width:32px;height:2px;background:linear-gradient(90deg,var(--solar),transparent)}
+.heading{font-size:clamp(1.75rem,4vw,2.7rem);font-weight:900;line-height:1.3;margin-bottom:16px;color:var(--t0)}
+.sub{font-size:1rem;color:var(--t2);max-width:700px;margin-bottom:60px;line-height:1.95}
+.divider{height:1px;max-width:1140px;margin:0 auto;background:linear-gradient(90deg,transparent 5%,var(--b1) 50%,transparent 95%)}
+
+/* ═══════════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════════ */
+.hero{min-height:100vh;display:flex;align-items:center;padding:130px 0 90px;position:relative;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+
+.hero-text{z-index:2}
+.hero-chip{display:inline-flex;align-items:center;gap:10px;padding:8px 22px;border-radius:50px;font-size:.76rem;font-weight:600;color:var(--solar);background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.18);margin-bottom:32px;animation:fadeUp .8s var(--ease) both}
+.hero-chip .live{width:7px;height:7px;background:var(--emerald);border-radius:50%;animation:pulse 2s infinite}
+.hero-text h1{font-size:clamp(2rem,4.8vw,3.4rem);font-weight:900;line-height:1.28;margin-bottom:22px;animation:fadeUp .9s var(--ease) .1s both}
+.hero-text h1 .grad{background:linear-gradient(135deg,var(--solar) 0%,var(--sky) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% 200%;animation:gradShift 6s ease infinite}
+.hero-text h2{font-family:var(--fe);font-size:clamp(.88rem,1.8vw,1.12rem);font-weight:300;color:var(--t3);margin-bottom:12px;letter-spacing:.6px;animation:fadeUp .9s var(--ease) .2s both}
+.hero-uni{font-size:.88rem;color:var(--t4);margin-bottom:40px;animation:fadeUp .9s var(--ease) .3s both}
+
+.hero-metrics{display:flex;gap:14px;flex-wrap:wrap;animation:fadeUp .9s var(--ease) .4s both}
+.hm{background:var(--glass);backdrop-filter:blur(16px);border:1px solid var(--b1);border-radius:var(--r-md);padding:20px 26px;min-width:130px;text-align:center;transition:all .4s var(--ease);position:relative;overflow:hidden}
+.hm::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--solar),transparent);opacity:0;transition:opacity .4s}
+.hm:hover{transform:translateY(-5px);border-color:var(--solar);box-shadow:0 20px 50px -15px rgba(251,191,36,.15)}
+.hm:hover::before{opacity:1}
+.hm .v{font-family:var(--fe);font-size:1.65rem;font-weight:800;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hm .l{font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:2px;margin-top:5px}
+
+.hero-visual{z-index:2;animation:fadeUp 1s var(--ease) .3s both}
+.hero-frame{position:relative;border-radius:var(--r-xl);overflow:hidden;border:1px solid var(--b2);box-shadow:0 0 80px -15px rgba(251,191,36,.12),0 30px 80px -20px rgba(0,0,0,.6)}
+.hero-frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(3,7,18,.4));pointer-events:none}
+.hero-frame img{width:100%;display:block;transition:transform 8s var(--ease)}
+.hero-frame:hover img{transform:scale(1.04)}
+.hero-logo-f{position:absolute;top:-16px;left:-16px;width:72px;height:72px;border-radius:18px;overflow:hidden;border:3px solid var(--bg-0);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:3;animation:fadeUp .8s var(--ease) .5s both}
+.hero-logo-f img{width:100%;height:100%;object-fit:cover}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROW: IMAGE + TEXT  (premium alternating layout)
+═══════════════════════════════════════════════════════════════ */
+.row{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center;margin-bottom:80px}
+.row:last-child{margin-bottom:0}
+.row.rev .r-img{order:2} .row.rev .r-txt{order:1}
+
+.r-img{position:relative;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--b1);aspect-ratio:4/3;box-shadow:0 24px 60px -15px rgba(0,0,0,.45);transition:all .5s var(--ease)}
+.r-img:hover{border-color:var(--solar);box-shadow:0 24px 60px -10px rgba(251,191,36,.1),0 30px 70px -20px rgba(0,0,0,.5);transform:translateY(-4px)}
+.r-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease)}
+.r-img:hover img{transform:scale(1.06)}
+.r-img .badge{position:absolute;top:16px;right:16px;padding:6px 16px;border-radius:50px;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(0,0,0,.55);backdrop-filter:blur(12px);border:1px solid var(--b0);color:var(--t1)}
+.r-img .corner-glow{position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;background:var(--solar);opacity:.08;border-radius:50%;filter:blur(40px);pointer-events:none}
+
+.r-txt .tag{display:inline-block;padding:5px 16px;border-radius:50px;font-size:.7rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:18px}
+.r-txt h3{font-size:1.3rem;font-weight:800;color:var(--t0);margin-bottom:14px;line-height:1.55}
+.r-txt p{font-size:.93rem;color:var(--t2);line-height:1.95;margin-bottom:12px}
+.r-txt .specs{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:8px}
+.r-txt .specs li{display:flex;align-items:flex-start;gap:12px;font-size:.88rem;color:var(--t2);line-height:1.7}
+.r-txt .specs li .dot{width:24px;height:24px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:3px}
+
+/* ═══════════════════════════════════════════════════════════════
+   STATS MARQUEE
+═══════════════════════════════════════════════════════════════ */
+.stats-strip{background:var(--bg-2);border-top:1px solid var(--b0);border-bottom:1px solid var(--b0);padding:44px 0;overflow:hidden}
+.stats-inner{display:grid;grid-template-columns:repeat(6,1fr);gap:20px;max-width:1140px;margin:0 auto;padding:0 32px}
+.si{text-align:center}
+.si .sn{font-family:var(--fe);font-size:2rem;font-weight:800;color:var(--sky)}
+.si .sl{font-size:.72rem;color:var(--t3);margin-top:4px;text-transform:uppercase;letter-spacing:1.5px}
+
+/* ═══════════════════════════════════════════════════════════════
+   DASHBOARD — Premium Gauge Simulator
+═══════════════════════════════════════════════════════════════ */
+.dash-section{padding:110px 0}
+.dash-outer{position:relative;max-width:560px;margin:0 auto}
+.dash-card{
+  background:linear-gradient(160deg,var(--bg-2),var(--bg-3));
+  border:1px solid var(--b2);border-radius:var(--r-xl);padding:40px;
+  box-shadow:0 0 100px -20px rgba(56,189,248,.1),0 40px 80px -20px rgba(0,0,0,.5);
+  position:relative;overflow:hidden
+}
+.dash-card::before{content:'';position:absolute;top:-1px;left:15%;right:15%;height:2px;background:linear-gradient(90deg,transparent,var(--sky),transparent);border-radius:2px}
+.dash-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(transparent,rgba(56,189,248,.03));pointer-events:none}
+.dash-hd{text-align:center;margin-bottom:28px}
+.dash-hd h3{font-family:var(--fe);font-size:1.25rem;font-weight:300;color:var(--sky);letter-spacing:1.5px}
+.dash-hd .mode{font-size:.72rem;color:var(--t3);letter-spacing:3px;margin-top:6px;text-transform:uppercase}
+
+.gauges{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.gauge{background:rgba(255,255,255,.02);border:1px solid var(--b0);border-radius:var(--r-md);padding:22px;text-align:center;position:relative;overflow:hidden;transition:all .3s}
+.gauge:hover{border-color:var(--sky-d)}
+.gauge.wide{grid-column:1/-1}
+.gauge .g-label{font-size:.62rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--t3);margin-bottom:10px}
+.gauge .g-val{font-family:var(--fe);font-size:2.4rem;font-weight:700;transition:all .3s}
+.gauge .g-val.temp{color:var(--solar)}
+.gauge .g-val.hum{color:var(--emerald)}
+.gauge .g-bar{height:3px;background:var(--b0);border-radius:3px;margin-top:12px;overflow:hidden}
+.gauge .g-bar .fill{height:100%;border-radius:3px;transition:width 1.5s var(--ease)}
+.gauge .g-bar .fill.t{background:linear-gradient(90deg,var(--solar-d),var(--solar))}
+.gauge .g-bar .fill.h{background:linear-gradient(90deg,var(--emerald-d),var(--emerald))}
+
+.relays{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+.rl{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:50px;font-size:.72rem;font-weight:600;font-family:var(--fe);background:rgba(255,255,255,.025);border:1px solid var(--b0);transition:all .3s}
+.rl:hover{border-color:var(--emerald-d)}
+.rl .on{width:7px;height:7px;background:var(--emerald);border-radius:50%;box-shadow:0 0 8px var(--emerald);animation:pulse 1.5s infinite}
+.rl .off{width:7px;height:7px;background:var(--t4);border-radius:50%}
+
+/* ═══════════════════════════════════════════════════════════════
+   EXPERIMENTS
+═══════════════════════════════════════════════════════════════ */
+.exp{background:var(--glass);backdrop-filter:blur(8px);border:1px solid var(--b1);border-radius:var(--r-lg);padding:36px;margin-bottom:24px;transition:all .4s var(--ease);position:relative;overflow:hidden}
+.exp::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px}
+.exp.fail::before{background:linear-gradient(180deg,var(--red),transparent)}
+.exp.ok::before{background:linear-gradient(180deg,var(--emerald),transparent)}
+.exp:hover{border-color:var(--solar);transform:translateX(-4px)}
+.exp .eb{display:inline-block;padding:5px 16px;border-radius:50px;font-size:.7rem;font-weight:700;margin-bottom:18px;letter-spacing:.5px}
+.exp .eb.f{background:rgba(248,113,113,.1);color:var(--red)}
+.exp .eb.s{background:rgba(52,211,153,.1);color:var(--emerald)}
+.exp h3{font-size:1.08rem;font-weight:700;margin-bottom:14px;color:var(--t0)}
+.exp ul{list-style:none}
+.exp ul li{padding:6px 0;font-size:.88rem;color:var(--t2);display:flex;gap:10px;align-items:flex-start}
+.exp ul li::before{content:'▹';color:var(--solar);flex-shrink:0;margin-top:2px;font-weight:700}
+
+/* TABLE */
+.tbl-w{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--b1);background:var(--glass);backdrop-filter:blur(8px)}
+table{width:100%;border-collapse:collapse}
+thead{background:rgba(251,191,36,.05)}
+th{padding:16px 24px;text-align:right;font-weight:700;color:var(--solar);font-size:.72rem;text-transform:uppercase;letter-spacing:2px;border-bottom:1px solid var(--b1)}
+td{padding:14px 24px;border-bottom:1px solid var(--b0);font-size:.86rem;color:var(--t2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(255,255,255,.01)}
+.g{color:var(--emerald);font-weight:700}
+.b{color:var(--red);font-weight:600}
+
+/* ═══════════════════════════════════════════════════════════════
+   GALLERY
+═══════════════════════════════════════════════════════════════ */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px}
+.gi{position:relative;border-radius:var(--r-md);overflow:hidden;border:1px solid var(--b0);cursor:pointer;aspect-ratio:4/3;transition:all .45s var(--ease)}
+.gi:hover{border-color:var(--solar);transform:translateY(-6px);box-shadow:0 20px 50px -10px rgba(251,191,36,.12)}
+.gi img{width:100%;height:100%;object-fit:cover;transition:transform .65s var(--ease)}
+.gi:hover img{transform:scale(1.08)}
+.gi .gc{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,.9));padding:28px 18px 16px;font-size:.78rem;font-weight:600;transform:translateY(8px);opacity:.85;transition:all .3s}
+.gi:hover .gc{transform:translateY(0);opacity:1}
+
+/* ═══════════════════════════════════════════════════════════════
+   TEAM
+═══════════════════════════════════════════════════════════════ */
+.sup-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:56px}
+.sc{background:var(--glass);border:1px solid var(--b0);border-radius:var(--r-md);padding:22px;display:flex;align-items:center;gap:16px;transition:all .3s var(--ease)}
+.sc:hover{border-color:var(--sky);transform:translateY(-3px);box-shadow:0 12px 30px -8px rgba(56,189,248,.1)}
+.sc .av{width:48px;height:48px;border-radius:14px;flex-shrink:0;background:linear-gradient(135deg,var(--sky),var(--solar));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1.1rem;color:#fff}
+.sc h4{font-size:.92rem;font-weight:700;color:var(--t0)}
+.sc p{font-size:.76rem;color:var(--t3)}
+
+.mf{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.mm{background:var(--glass);border:1px solid var(--b0);border-radius:var(--r-sm);padding:11px 22px;font-size:.85rem;font-weight:500;transition:all .3s var(--ease)}
+.mm:hover{border-color:var(--solar);background:rgba(251,191,36,.04);transform:translateY(-2px)}
+.mm.ld{background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(56,189,248,.06));border-color:rgba(251,191,36,.3);font-weight:700}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════════ */
+footer{border-top:1px solid var(--b0);padding:56px 32px;text-align:center}
+footer .fb{font-family:var(--fe);font-size:1.3rem;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+footer p{font-size:.8rem;color:var(--t3)}
+
+/* ═══ LIGHTBOX ═══ */
+.lb{display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:9999;justify-content:center;align-items:center;cursor:pointer;backdrop-filter:blur(8px)}
+.lb.show{display:flex}
+.lb img{max-width:92%;max-height:92%;border-radius:var(--r-md);box-shadow:0 0 100px rgba(0,0,0,.5)}
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(36px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(1.5)}}
+@keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.rv{opacity:0;transform:translateY(36px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.vis{opacity:1;transform:translateY(0)}
+.rv-d1{transition-delay:.1s}.rv-d2{transition-delay:.2s}.rv-d3{transition-delay:.3s}.rv-d4{transition-delay:.4s}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;text-align:center}
+  .hero-visual{max-width:440px;margin:0 auto}
+  .hero-metrics{justify-content:center}
+  .hero-logo-f{display:none}
+  .row{grid-template-columns:1fr;gap:32px}
+  .row.rev .r-img{order:0}.row.rev .r-txt{order:0}
+  .nav-links{display:none}
+  .stats-inner{grid-template-columns:repeat(3,1fr)}
+  .gauges{grid-template-columns:1fr}
+  section{padding:80px 0}
+  .wrap{padding:0 20px}
+}
+@media(max-width:500px){
+  .stats-inner{grid-template-columns:repeat(2,1fr)}
+  .hero-metrics{flex-direction:column;align-items:center}
+  .hm{width:100%}
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ⚡ DESIGN UPGRADE v2 — Premium Polish
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Body ambient orbs ─────────────────────────────────────── */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 0%,rgba(251,191,36,.045) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%,rgba(56,189,248,.04) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%,rgba(52,211,153,.02) 0%,transparent 70%);
+}
+
+/* ── Section alternating background ───────────────────────── */
+section:nth-child(even){background:linear-gradient(180deg,transparent,rgba(10,17,40,.3),transparent)}
+
+/* ── Upgraded EYEBROW ──────────────────────────────────────── */
+.eyebrow{
+  font-size:.68rem;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:var(--solar);margin-bottom:14px;
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(251,191,36,.04));
+  border:1px solid rgba(251,191,36,.2);border-radius:50px;
+  padding:5px 16px 5px 10px;
+}
+.eyebrow::before{
+  content:'';width:6px;height:6px;background:var(--solar);
+  border-radius:50%;box-shadow:0 0 8px var(--solar);flex-shrink:0;
+  animation:eyebrowPulse 2s ease-in-out infinite;
+}
+@keyframes eyebrowPulse{0%,100%{opacity:1;box-shadow:0 0 6px var(--solar)}50%{opacity:.5;box-shadow:0 0 14px var(--solar)}}
+
+/* ── Upgraded HEADING ──────────────────────────────────────── */
+.heading{
+  font-size:clamp(1.7rem,3.5vw,2.6rem);font-weight:900;line-height:1.28;
+  color:var(--t0);margin-bottom:14px;letter-spacing:-.02em;
+}
+
+/* ── Section title gradient accent ────────────────────────── */
+.heading span.hi{
+  background:linear-gradient(135deg,var(--solar) 20%,var(--sky) 80%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+/* ── Subtitle ──────────────────────────────────────────────── */
+.sub{
+  font-size:.96rem;line-height:2;color:var(--t2);
+  max-width:680px;margin-bottom:52px;
+}
+
+/* ── Premium DIVIDER ───────────────────────────────────────── */
+.divider{
+  height:1px;max-width:1140px;margin:0 auto;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(251,191,36,.08) 20%,
+    rgba(251,191,36,.25) 50%,
+    rgba(56,189,248,.12) 70%,
+    transparent 100%);
+  position:relative;
+}
+.divider::before{
+  content:'⚡';position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  background:var(--bg-0);padding:0 10px;
+  font-size:.7rem;color:rgba(251,191,36,.4);
+}
+
+/* ── NAV upgrades ──────────────────────────────────────────── */
+.nav-in{height:64px}
+.nav.scrolled{
+  background:rgba(3,7,18,0.92);
+  border-bottom:1px solid rgba(251,191,36,.1);
+  box-shadow:0 4px 48px rgba(0,0,0,.5),0 0 0 1px rgba(251,191,36,.04) inset;
+}
+.nav-brand span{
+  background:linear-gradient(135deg,var(--solar),var(--sky));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-weight:800;font-size:1.05rem;
+}
+
+/* ── HERO upgrades ─────────────────────────────────────────── */
+.hero-chip{
+  background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(56,189,248,.06));
+  border:1px solid rgba(251,191,36,.22);
+  box-shadow:0 0 30px rgba(251,191,36,.08);
+  backdrop-filter:blur(12px);
+}
+.hm{
+  background:linear-gradient(135deg,rgba(10,17,40,.8),rgba(17,29,53,.6));
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+  transition:all .4s var(--ease);
+}
+.hm:hover{
+  border-color:rgba(251,191,36,.35);
+  background:linear-gradient(135deg,rgba(251,191,36,.07),rgba(10,17,40,.9));
+  box-shadow:0 16px 48px -8px rgba(251,191,36,.15),0 0 0 1px rgba(251,191,36,.12);
+  transform:translateY(-6px) scale(1.02);
+}
+
+/* ── STATS STRIP upgrade ───────────────────────────────────── */
+.stats-strip{
+  background:linear-gradient(135deg,var(--bg-1),var(--bg-2));
+  border-top:1px solid rgba(251,191,36,.12);
+  border-bottom:1px solid rgba(56,189,248,.08);
+  position:relative;
+}
+.stats-strip::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--solar),var(--sky),transparent);
+  opacity:.4;
+}
+.si .sn{
+  font-family:var(--fe);font-size:2.1rem;font-weight:900;
+  background:linear-gradient(135deg,var(--solar),var(--sky));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1.15;
+}
+.si .sl{font-size:.68rem;color:var(--t3);margin-top:6px;letter-spacing:2px;text-transform:uppercase}
+.si{
+  padding:16px;border-radius:16px;transition:all .35s var(--ease);
+  border:1px solid transparent;
+}
+.si:hover{
+  background:rgba(251,191,36,.04);
+  border-color:rgba(251,191,36,.12);
+  transform:translateY(-4px);
+}
+
+/* ── R-IMG upgrade ─────────────────────────────────────────── */
+.r-img{
+  border-radius:24px;
+  box-shadow:0 24px 80px -20px rgba(0,0,0,.6),0 0 0 1px var(--b1);
+  overflow:hidden;
+}
+.r-img:hover{
+  box-shadow:0 32px 80px -15px rgba(251,191,36,.14),0 0 0 1px rgba(251,191,36,.25);
+  transform:translateY(-6px) rotate(.3deg);
+}
+.r-img .badge{
+  background:rgba(3,7,18,.75);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(251,191,36,.25);
+  color:var(--solar);
+  font-weight:700;letter-spacing:2px;
+}
+.r-img .corner-glow{opacity:.14;filter:blur(50px)}
+
+/* ── DASHBOARD upgrade ─────────────────────────────────────── */
+.dash-card{
+  background:linear-gradient(160deg,rgba(10,17,40,.95),rgba(17,29,53,.9));
+  border:1px solid rgba(56,189,248,.18);
+  border-radius:28px;padding:44px;
+  box-shadow:
+    0 0 120px -30px rgba(56,189,248,.15),
+    0 40px 100px -30px rgba(0,0,0,.7),
+    inset 0 1px 0 rgba(255,255,255,.06);
+}
+.gauge{
+  background:linear-gradient(135deg,rgba(255,255,255,.025),rgba(255,255,255,.01));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:16px;
+  transition:all .3s var(--ease);
+}
+.gauge:hover{
+  background:rgba(56,189,248,.04);
+  border-color:rgba(56,189,248,.2);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(56,189,248,.08);
+}
+.gauge .g-val{font-size:2.6rem;font-weight:800;letter-spacing:-.03em}
+
+/* ── EXP cards upgrade ─────────────────────────────────────── */
+.exp{
+  background:linear-gradient(145deg,rgba(10,17,40,.7),rgba(10,17,40,.45));
+  backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:22px;padding:36px;
+  transition:all .4s var(--ease);
+  position:relative;
+}
+.exp.fail{border-left:3px solid var(--red);border-top:1px solid rgba(248,113,113,.15)}
+.exp.ok{border-left:3px solid var(--emerald);border-top:1px solid rgba(52,211,153,.15)}
+.exp.fail:hover{border-color:rgba(248,113,113,.4);box-shadow:0 20px 60px -15px rgba(248,113,113,.12);transform:translateX(-4px)}
+.exp.ok:hover{border-color:rgba(52,211,153,.4);box-shadow:0 20px 60px -15px rgba(52,211,153,.12);transform:translateX(-4px)}
+
+/* ── TABLE upgrade ─────────────────────────────────────────── */
+.tbl-w{
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.08);
+  overflow:hidden;
+  box-shadow:0 16px 48px -12px rgba(0,0,0,.4);
+}
+thead{background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(56,189,248,.04))}
+th{
+  padding:18px 26px;font-size:.72rem;font-weight:800;
+  letter-spacing:2.5px;text-transform:uppercase;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+th:first-child{color:var(--t2)}
+th:nth-child(2){color:var(--red)}
+th:nth-child(3){color:var(--emerald)}
+td{
+  padding:15px 26px;font-size:.87rem;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  transition:background .2s;
+}
+td:first-child{color:var(--t1);font-weight:600}
+tr:hover td{background:rgba(251,191,36,.03)}
+tr:last-child td{border-bottom:none}
+
+/* ── GALLERY upgrade ───────────────────────────────────────── */
+.gi{border-radius:18px;border:1px solid rgba(255,255,255,.06)}
+.gi:hover{
+  border-color:rgba(251,191,36,.3);
+  box-shadow:0 24px 60px -12px rgba(251,191,36,.14),0 0 0 1px rgba(251,191,36,.12);
+  transform:translateY(-8px) scale(1.01);
+}
+.gi .gc{font-size:.76rem;font-weight:700;letter-spacing:.5px}
+
+/* ── TEAM cards upgrade ────────────────────────────────────── */
+.sc{
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(10,17,40,.7),rgba(10,17,40,.5));
+  border:1px solid rgba(255,255,255,.06);
+  backdrop-filter:blur(10px);
+  transition:all .35s var(--ease);
+}
+.sc:hover{
+  border-color:rgba(56,189,248,.3);
+  background:linear-gradient(135deg,rgba(56,189,248,.05),rgba(10,17,40,.7));
+  box-shadow:0 16px 40px -12px rgba(56,189,248,.15);
+  transform:translateY(-4px);
+}
+.sc .av{
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,.3);
+  font-size:1.15rem;
+}
+.mm{
+  background:linear-gradient(135deg,rgba(10,17,40,.7),rgba(10,17,40,.4));
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:14px;padding:10px 22px;
+  backdrop-filter:blur(8px);transition:all .3s var(--ease);
+}
+.mm:hover{
+  border-color:rgba(251,191,36,.28);
+  background:linear-gradient(135deg,rgba(251,191,36,.07),rgba(10,17,40,.7));
+  transform:translateY(-3px);
+  box-shadow:0 10px 28px -8px rgba(251,191,36,.12);
+}
+.mm.ld{
+  background:linear-gradient(135deg,rgba(251,191,36,.12),rgba(56,189,248,.06));
+  border-color:rgba(251,191,36,.35);
+  box-shadow:0 0 24px rgba(251,191,36,.1);
+}
+
+/* ── FOOTER upgrade ────────────────────────────────────────── */
+footer{
+  background:linear-gradient(180deg,transparent,rgba(3,7,18,.8));
+  border-top:1px solid rgba(251,191,36,.1);
+  padding:64px 32px 48px;
+  position:relative;
+}
+footer::before{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--solar),transparent);
+  opacity:.35;
+}
+footer .fb{
+  font-size:1.4rem;font-weight:800;
+  background:linear-gradient(135deg,var(--solar) 30%,var(--sky) 80%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:10px;letter-spacing:-.02em;
+}
+footer p{font-size:.82rem;color:var(--t3);line-height:1.9}
+
+/* ── Scrollbar upgrade ─────────────────────────────────────── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:var(--bg-0)}
+::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--solar-d),var(--sky-d));
+  border-radius:8px;
+}
+
+/* ── Glass card (used in new sections) ─────────────────────── */
+[style*="border-radius:var(--r-lg)"][style*="background:linear-gradient"],
+[style*="border-radius:var(--r-lg)"][style*="background:rgba"]{
+  backdrop-filter:blur(12px);
+}
+
+/* ── Thermal chain flow bar ────────────────────────────────── */
+#thermal-power [style*="display:flex;align-items:stretch"]{
+  border-radius:18px;overflow:hidden;
+  box-shadow:0 12px 40px -12px rgba(0,0,0,.5);
+  border:1px solid rgba(255,255,255,.05);
+}
+
+/* ── CTA section upgrade ───────────────────────────────────── */
+#cta-pages{background:linear-gradient(180deg,rgba(10,17,40,.2),transparent)}
+
+/* ── Loader upgrade ────────────────────────────────────────── */
+.loader{background:radial-gradient(ellipse at 50% 50%,#0a1128 0%,#030712 100%)}
+.loader-ring{
+  border-width:2.5px;
+  border-top-color:var(--solar);
+  box-shadow:0 0 20px rgba(251,191,36,.3);
+}
+.loader p{
+  background:linear-gradient(135deg,var(--solar),var(--sky));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  font-weight:600;
+}
+
+/* ── Section entrance glows ────────────────────────────────── */
+#collector::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(251,191,36,.05),transparent 70%);
+  pointer-events:none;border-radius:50%;
+}
+#control::before{
+  content:'';position:absolute;top:-60px;left:-60px;
+  width:300px;height:300px;
+  background:radial-gradient(circle,rgba(56,189,248,.04),transparent 70%);
+  pointer-events:none;border-radius:50%;
+}
+#exp::before{
+  content:'';position:absolute;top:0;right:-40px;
+  width:280px;height:280px;
+  background:radial-gradient(circle,rgba(52,211,153,.04),transparent 70%);
+  pointer-events:none;border-radius:50%;
+}
+
+/* ── Relay badges ──────────────────────────────────────────── */
+.rl{
+  background:linear-gradient(135deg,rgba(10,17,40,.8),rgba(10,17,40,.5));
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:50px;
+  transition:all .3s var(--ease);
+}
+.rl:hover{
+  border-color:rgba(52,211,153,.35);
+  background:rgba(52,211,153,.06);
+  transform:scale(1.04);
+}
+
+/* ── Enhanced scroll reveal timing ─────────────────────────── */
+.rv{transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv-d1{transition-delay:.12s}
+.rv-d2{transition-delay:.22s}
+.rv-d3{transition-delay:.32s}
+.rv-d4{transition-delay:.42s}
+
+</style>
+</head>
+<body>
+
+<!-- LOADING SCREEN -->
+<div class="loader" id="loader"><div class="loader-ring"></div><p>ECODRY TECH</p></div>
+
+<!-- PARTICLES CANVAS -->
+<canvas id="particles"></canvas>
+<div class="ambient"></div>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-in">
+    <a class="nav-brand" href="#hero"><img src="اللوجو.jpeg" alt="ECODRY TECH"><span>ECODRY TECH</span></a>
+    <div class="nav-links">
+      <a href="#problem" class="active">الرئيسية</a>
+      <a href="#collector">المجمع</a>
+      <a href="#chamber">غرفة التجفيف</a>
+      <a href="#control">التحكم</a>
+      <a href="#dash">المحاكاة</a>
+      <a href="#exp">التجارب</a>
+      <a href="#gal">الصور</a>
+      <a href="#team">الفريق</a>
+      <div class="nav-sep"></div>
+      <a href="benchmark-section.html" class="nav-page-link green">📊 Benchmark</a>
+      <a href="solar_dryer_guide.html" class="nav-page-link sky">⚙️ Components Guide</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <div class="hero-chip"><div class="live"></div>مشروع تخرج 2025/2026 — كلية التكنولوجيا والتعليم</div>
+        <h1>تصميم وتنفيذ <span class="grad">مجفف شمسي هجين ذكي</span> لحفظ المحاصيل الزراعية</h1>
+        <h2>Design & Implementation of a Smart Hybrid Solar Dehydrator for Agricultural Crops Preservation in Sohag Governorate</h2>
+        <p class="hero-uni">جامعة سوهاج • قسم الكهرباء — شعبة القوى والآلات الكهربائية<br>فريق ECODRY TECH — 11 مهندساً ومهندسة</p>
+        <div class="hero-metrics">
+          <div class="hm"><div class="v" data-count="450">0</div><div class="l">واط حراري</div></div>
+          <div class="hm"><div class="v" data-count="75">0</div><div class="l">% كفاءة</div></div>
+          <div class="hm"><div class="v" data-count="84">0</div><div class="l">واط كهربي</div></div>
+          <div class="hm"><div class="v">$0</div><div class="l">تكلفة تشغيل</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-logo-f"><img src="اللوجو.jpeg" alt="Logo"></div>
+        <div class="hero-frame"><img src="المشروع امامي.jpeg" alt="النظام المتكامل"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ STATS ═══════════ -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="si"><div class="sn">100W</div><div class="sl">لوح شمسي</div></div>
+    <div class="si"><div class="sn">12V</div><div class="sl">بطارية</div></div>
+    <div class="si"><div class="sn">31°</div><div class="sl">زاوية الميل</div></div>
+    <div class="si"><div class="sn">63.4°C</div><div class="sl">حرارة المجمع</div></div>
+    <div class="si"><div class="sn">57.6°C</div><div class="sl">حرارة المجفف</div></div>
+    <div class="si"><div class="sn">22.2%</div><div class="sl">أقل رطوبة</div></div>
+  </div>
+</div>
+
+<!-- ═══════════ PROBLEM ═══════════ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">لماذا هذا المشروع؟</div></div>
+    <h2 class="heading rv rv-d1">المشكلة التي دفعتنا للابتكار</h2>
+    <p class="sub rv rv-d2">يُفقد سنوياً ما بين 30% إلى 40% من المحاصيل الزراعية في صعيد مصر بسبب سوء ظروف التخزين والرطوبة العالية. التجفيف التقليدي بالشمس المباشرة يعرّض المحاصيل للأتربة والحشرات والتلوث، بينما المجففات الكهربائية الحديثة تستهلك 1,000 إلى 3,000 واط بتكلفة تشغيل ضخمة لا يتحملها صغار المزارعين. ابتكرنا حلاً هندسياً متكاملاً يعمل كلياً خارج الشبكة (Off-Grid) بصفر تكلفة تشغيل.</p>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ SOLAR COLLECTOR ═══════════ -->
+<section id="collector">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">المكون الأول</div></div>
+    <h2 class="heading rv rv-d1">المجمع الشمسي الحراري</h2>
+    <p class="sub rv rv-d2">يمتص أشعة الشمس ويحوّلها إلى طاقة حرارية مجانية بكفاءة عالية لتسخين الهواء المُوجّه إلى غرفة التجفيف.</p>
+
+    <div class="row rv">
+      <div class="r-img"><img src="المجدمع بعد التصميم و التخشيب.jpeg" alt="هيكل المجمع الشمسي"><span class="badge">مرحلة الهيكل</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(251,191,36,.1);color:var(--solar)">التصميم والبناء</span>
+        <h3>الهيكل الخشبي وزاوية الميل المثالية ☀️</h3>
+        <p>تم تصميم المجمع بزاوية ميل 31° المثالية لموقع سوهاج الجغرافي (خط عرض 26.5°N)، مما يضمن أقصى امتصاص للإشعاع الشمسي طوال الموسم الزراعي. الهيكل من خشب الأبلكاش المقوّى على إطار سدايب صلب.</p>
+        <ul class="specs">
+          <li><span class="dot" style="background:rgba(251,191,36,.12);color:var(--solar)">◆</span>كفاءة امتصاص حراري: 75%</li>
+          <li><span class="dot" style="background:rgba(251,191,36,.12);color:var(--solar)">◆</span>مسارات هوائية متعرجة لتعظيم التبادل الحراري</li>
+          <li><span class="dot" style="background:rgba(251,191,36,.12);color:var(--solar)">◆</span>إنتاج 450 واط حرارية مجانية</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row rev rv">
+      <div class="r-img"><img src="وضع اللوح الصاج في الهيكل الخشبي بعد وضع السدايب.jpeg" alt="لوح الصاج"><span class="badge">السطح الماص</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(56,189,248,.1);color:var(--sky)">اختيار الخامات</span>
+        <h3>لوح الصاج المجلفن والعزل الحراري 🛡️</h3>
+        <p>تم اختيار لوح صاج مجلفن بمقاس ونوع محددين بعناية (قرار هندسي من قائد الفريق). طُلي بطلاء أسود مطفي لتحقيق امتصاصية +90%، مع عزل سفلي وجانبي بالصوف الصخري والفوم الحراري المغلف بالألومنيوم.</p>
+        <ul class="specs">
+          <li><span class="dot" style="background:rgba(56,189,248,.12);color:var(--sky)">◆</span>امتصاصية السطح: أكثر من 90%</li>
+          <li><span class="dot" style="background:rgba(56,189,248,.12);color:var(--sky)">◆</span>عزل مزدوج: صوف صخري + فوم ألومنيوم</li>
+          <li><span class="dot" style="background:rgba(56,189,248,.12);color:var(--sky)">◆</span>حرارة مُحققة: 63.4°C</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ DRYING CHAMBER ═══════════ -->
+<section id="chamber">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">المكون الثاني</div></div>
+    <h2 class="heading rv rv-d1">غرفة التجفيف الذكية</h2>
+
+    <div class="row rv">
+      <div class="r-img"><img src="صورة المجفف بعد العزل.jpeg" alt="غرفة التجفيف معزولة"><span class="badge">بعد العزل</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(167,139,250,.1);color:var(--violet)">العزل الحراري</span>
+        <h3>غرفة معزولة حرارياً بالكامل 🏠</h3>
+        <p>جميع الجدران الداخلية والأرضية والسقف مُبطّنة بطبقتين: الصوف الصخري ثم الفوم الحراري العاكس. قام قائد الفريق بتنفيذ العزل بنفسه ثم تدريب زملائه والإشراف على عملهم.</p>
+        <ul class="specs">
+          <li><span class="dot" style="background:rgba(167,139,250,.12);color:var(--violet)">◆</span>أرفف استانلس ستيل تدور 360°</li>
+          <li><span class="dot" style="background:rgba(167,139,250,.12);color:var(--violet)">◆</span>محرك جيربوكس JGY-370</li>
+          <li><span class="dot" style="background:rgba(167,139,250,.12);color:var(--violet)">◆</span>نظام أمان Limit Switch + إضاءة LED</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="row rev rv">
+      <div class="r-img"><img src="المشروع  و هو شغال.jpeg" alt="التشغيل الفعلي"><span class="badge">تشغيل فعلي</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(52,211,153,.1);color:var(--emerald)">التشغيل الميداني</span>
+        <h3>النظام أثناء العمل الفعلي ⚡</h3>
+        <p>النظام المتكامل أثناء التشغيل: المجمع موصّل بأنبوب معزول (5 سم بعد التحسين) ينقل الهواء الساخن للغرفة. نافذة زجاج سيكوريت تتيح المراقبة بدون فقدان الحرارة.</p>
+        <ul class="specs">
+          <li><span class="dot" style="background:rgba(52,211,153,.12);color:var(--emerald)">◆</span>حرارة مستقرة: 57.6°C</li>
+          <li><span class="dot" style="background:rgba(52,211,153,.12);color:var(--emerald)">◆</span>رطوبة منخفضة: 22.2%</li>
+          <li><span class="dot" style="background:rgba(52,211,153,.12);color:var(--emerald)">◆</span>نافذة تشغيل: 6.5 ساعة</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ CONTROL SYSTEM ═══════════ -->
+<section id="control">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">المكون الثالث</div></div>
+    <h2 class="heading rv rv-d1">منظومة التحكم الذكي والبرمجة</h2>
+    <p class="sub rv rv-d2">الجانب التقني المتكامل — من المحاكاة الرقمية إلى التنفيذ الفعلي. تم تصميم وبرمجة وتنفيذ المنظومة بالكامل بواسطة قائد الفريق.</p>
+
+    <div class="row rv">
+      <div class="r-img"><img src="رسمة دائرة التحكم - Copy.jpeg" alt="مخطط الدائرة - Visio"><span class="badge">VISIO</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(56,189,248,.1);color:var(--sky)">تصميم الدوائر</span>
+        <h3>المخطط الكهربائي الكامل — Microsoft Visio 📋</h3>
+        <p>مخطط شامل: اللوح الشمسي 100W → منظم PWM → بطارية 12V → Buck Converters → ESP32 → 4 مرحّلات تتحكم في المراوح والمحرك. يشمل حساسات DHT22 و DS18B20 وفيوزات ومفتاح Limit Switch.</p>
+      </div>
+    </div>
+
+    <div class="row rev rv">
+      <div class="r-img"><img src="رسمة البروتوس.jpeg" alt="Proteus Simulation"><span class="badge">PROTEUS</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(251,191,36,.1);color:var(--solar)">المحاكاة</span>
+        <h3>محاكاة Proteus — اختبار قبل التنفيذ 🔬</h3>
+        <p>نموذج محاكاة كامل للتحقق من المنطق البرمجي وسلوك الدائرة قبل التنفيذ. تم اختبار جميع السيناريوهات (ارتفاع الحرارة، انخفاض الرطوبة، فتح الباب) والتأكد من استجابة النظام بشكل صحيح.</p>
+      </div>
+    </div>
+
+    <div class="row rv">
+      <div class="r-img"><img src="رسمة الماتلاب.jpeg" alt="MATLAB Simulink"><span class="badge">MATLAB</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(167,139,250,.1);color:var(--violet)">تحليل الطاقة</span>
+        <h3>محاكاة منظومة القدرة — MATLAB Simulink ⚡</h3>
+        <p>نموذج Simulink يحاكي سلسلة الطاقة: PV Module بإشعاعية 1000 W/m² → منظم PWM → بطارية 12V → Buck Converter. يعرض منحنيات الجهد والتيار والقدرة للتحقق من استقرار التغذية للأحمال (~84W).</p>
+      </div>
+    </div>
+
+    <div class="row rev rv">
+      <div class="r-img"><img src="التحكم.jpeg" alt="تنفيذ التوصيلات"><span class="badge">التنفيذ</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(52,211,153,.1);color:var(--emerald)">التجميع</span>
+        <h3>تنفيذ التوصيلات الكهربائية يدوياً 🔧</h3>
+        <p>قائد المشروع أثناء تجميع وتوصيل الأسلاك وربط الحساسات بـ ESP32 والمرحّلات. لحام احترافي مع فيوزات حماية لكل خط. البرمجة في Arduino IDE مع بناء خادم ويب مدمج للمراقبة والتحكم.</p>
+      </div>
+    </div>
+
+    <div class="row rv">
+      <div class="r-img"><img src="التحكم منتجمع.jpeg" alt="لوحة التحكم مُجمّعة"><span class="badge">لوحة التحكم</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(251,191,36,.1);color:var(--solar)">النتيجة</span>
+        <h3>لوحة التحكم الإلكترونية المُجمّعة 🎛️</h3>
+        <p>اللوحة النهائية: ESP32 + وحدة مرحّلات رباعية + DHT22 + DS18B20 + Buck Converter + فيوزات حماية. جميع التوصيلات منظمة ومُرقّمة لسهولة الصيانة.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ IOT DASHBOARD ═══════════ -->
+<section class="dash-section" id="dash">
+  <div class="wrap">
+    <div class="rv" style="text-align:center"><div class="eyebrow" style="justify-content:center">محاكاة حية</div></div>
+    <h2 class="heading rv rv-d1" style="text-align:center">واجهة التحكم الذكي — IoT Dashboard</h2>
+    <p class="sub rv rv-d2" style="margin:0 auto 60px;text-align:center">محاكاة واقعية لواجهة الويب المدمجة في ESP32 — القراءات تتحدث كل ثانيتين كالنظام الحقيقي.</p>
+
+    <div class="rv">
+      <div class="dash-outer">
+        <div class="dash-card">
+          <div class="dash-hd"><h3>☀️ Smart Hybrid Solar Dehydrator</h3><div class="mode">AUTO • PROFILE 1 • CONNECTED</div></div>
+          <div class="gauges">
+            <div class="gauge">
+              <div class="g-label">Dryer Temp</div>
+              <div class="g-val temp" id="gd">57.6°C</div>
+              <div class="g-bar"><div class="fill t" id="bd" style="width:72%"></div></div>
+            </div>
+            <div class="gauge">
+              <div class="g-label">Humidity</div>
+              <div class="g-val hum" id="gh">22.2%</div>
+              <div class="g-bar"><div class="fill h" id="bh" style="width:22%"></div></div>
+            </div>
+            <div class="gauge wide">
+              <div class="g-label">Collector Temp</div>
+              <div class="g-val temp" id="gc">63.4°C</div>
+              <div class="g-bar"><div class="fill t" id="bc" style="width:79%"></div></div>
+            </div>
+          </div>
+          <div class="relays">
+            <div class="rl"><div class="on"></div>Dryer Fan</div>
+            <div class="rl"><div class="on"></div>Exhaust</div>
+            <div class="rl"><div class="on"></div>Collector Fan</div>
+            <div class="rl"><div class="off"></div>Motor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row rv" style="margin-top:64px">
+      <div class="r-img" style="aspect-ratio:auto;max-width:320px;margin:0 auto"><img src="المنصه 1.jpeg" alt="IoT Dashboard على الهاتف"></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(56,189,248,.1);color:var(--sky)">لقطة شاشة حقيقية</span>
+        <h3>واجهة التحكم الفعلية على الهاتف 📱</h3>
+        <p>لقطة حقيقية من هاتف متصل بشبكة Wi-Fi التي ينشئها ESP32 (العنوان 192.168.4.1). تظهر قراءات لحظية مع التبديل بين الوضع اليدوي والأوتوماتيكي وضبط عتبات التشغيل. الإعدادات تُحفظ في ذاكرة الفلاش.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ EXPERIMENTS ═══════════ -->
+<section id="exp">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">البحث والتطوير</div></div>
+    <h2 class="heading rv rv-d1">التجارب العملية والنتائج</h2>
+    <p class="sub rv rv-d2">تجربتان ميدانيتان متتاليتان — الأولى كشفت العقبات والثانية أثبتت نجاح المعايرة المتقدمة.</p>
+
+    <!-- PREMIUM EXPERIMENT COMPARISON CARDS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px" class="rv">
+
+      <!-- EXP 1 CARD -->
+      <div style="background:linear-gradient(160deg,rgba(248,113,113,.06),rgba(10,17,40,.55));border:1px solid rgba(248,113,113,.3);border-radius:var(--r-lg);padding:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--red),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.3);display:flex;align-items:center;justify-content:center;font-size:1.3rem">❌</div>
+          <div>
+            <div style="font-size:.7rem;font-weight:700;color:var(--red);letter-spacing:2px;text-transform:uppercase">التجربة الأولى</div>
+            <div style="font-size:.9rem;font-weight:800;color:var(--t0)">التقييم الأولي</div>
+          </div>
+        </div>
+        <div style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);border-radius:var(--r-sm);padding:14px;margin-bottom:16px">
+          <div style="font-size:.75rem;color:var(--t3);margin-bottom:4px">المحصول | المدة</div>
+          <div style="font-size:.92rem;font-weight:700;color:var(--t0)">موز فقط | 4 ساعات (12:00 — 4:00 م)</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:rgba(255,255,255,.03);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">حرارة المجمع</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--red)">55°C</div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">حرارة المجفف</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--red)">45°C</div>
+          </div>
+          <div style="background:rgba(255,255,255,.03);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">رطوبة المجفف</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--red)">33.5%</div>
+          </div>
+        </div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>فقد حراري بسبب طول الأنبوب (10 سم) — فارق يتجاوز 8°C</li>
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>نافذة تشغيل قصيرة (4 ساعات) — طاقة تراكمية غير كافية</li>
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>تفاوت سمك الشرائح — أطراف جافة ومركز رطب</li>
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>اسمرار إنزيمي PPO واضح — ليمون طبيعي مخفف غير كافٍ</li>
+        </ul>
+        <div style="margin-top:16px;padding:10px 14px;background:rgba(248,113,113,.08);border-radius:var(--r-sm);font-size:.8rem;color:var(--red);font-weight:700">⚠️ النتيجة: ملمس مطاطي، بقع بنية، تجفيف غير متكامل</div>
+      </div>
+
+      <!-- EXP 2 CARD -->
+      <div style="background:linear-gradient(160deg,rgba(52,211,153,.07),rgba(10,17,40,.55));border:1px solid rgba(52,211,153,.35);border-radius:var(--r-lg);padding:32px;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;width:4px;height:100%;background:linear-gradient(180deg,var(--emerald),transparent)"></div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;justify-content:center;font-size:1.3rem">✅</div>
+          <div>
+            <div style="font-size:.7rem;font-weight:700;color:var(--emerald);letter-spacing:2px;text-transform:uppercase">التجربة الثانية</div>
+            <div style="font-size:.9rem;font-weight:800;color:var(--t0)">المعايرة المتقدمة</div>
+          </div>
+        </div>
+        <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.18);border-radius:var(--r-sm);padding:14px;margin-bottom:16px">
+          <div style="font-size:.75rem;color:var(--t3);margin-bottom:4px">المحصول | المدة</div>
+          <div style="font-size:.92rem;font-weight:700;color:var(--t0)">موز + تفاح + كيوي + برتقال | 6.5 ساعة (11:00 ص — 5:30 م)</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+          <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">حرارة المجمع</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--emerald)">63.4°C</div>
+          </div>
+          <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">حرارة المجفف</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--emerald)">57.6°C</div>
+          </div>
+          <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">رطوبة نسبية</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--sky)">22.2%</div>
+          </div>
+          <div style="background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);border-radius:var(--r-sm);padding:12px;text-align:center">
+            <div style="font-size:.65rem;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">فقد حراري</div>
+            <div style="font-size:1.1rem;font-weight:900;color:var(--emerald)">6°C</div>
+          </div>
+        </div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:7px">
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>تقليص الأنبوب 50% (إلى 5 سم) وعزله بإحكام</li>
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>سمك شرائح هندسي موحد (3-4 mm) لانتظام التبخير</li>
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>حمض ستريك نقي (تثبيط PPO) + عسل أبيض (مضاد ميكروبي)</li>
+          <li style="display:flex;gap:9px;font-size:.82rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>نافذة 6.5 ساعة لاستغلال ذروة الإشعاع الشمسي</li>
+        </ul>
+        <div style="margin-top:16px;padding:10px 14px;background:rgba(52,211,153,.08);border-radius:var(--r-sm);font-size:.8rem;color:var(--emerald);font-weight:700">🏆 النتيجة: ألوان زاهية، بنية مقرمشة، طعم ممتاز، صفر أكسدة</div>
+      </div>
+    </div>
+
+
+    <!-- ══════ EXPERIMENT COMPARISON TABLE ══════ -->
+    <div class="rv" style="margin:48px 0 0">
+      <h3 style="font-size:1.05rem;font-weight:800;color:var(--t0);margin-bottom:20px;text-align:center">📋 جدول المقارنة التفصيلية — التجربة الأولى مقابل الثانية</h3>
+      <div style="overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--b1)">
+        <table style="width:100%;border-collapse:collapse;font-size:.84rem">
+          <thead>
+            <tr>
+              <th style="background:rgba(255,255,255,.04);padding:14px 18px;text-align:right;color:var(--t3);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--b1)">المعيار</th>
+              <th style="background:rgba(248,113,113,.05);padding:14px 18px;text-align:center;color:var(--red);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--b1)">❌ التجربة الأولى</th>
+              <th style="background:rgba(52,211,153,.05);padding:14px 18px;text-align:center;color:var(--emerald);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--b1)">✅ التجربة الثانية</th>
+              <th style="background:rgba(255,255,255,.04);padding:14px 18px;text-align:center;color:var(--solar);font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid var(--b1)">التحسُّن</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">المحاصيل المُجفَّفة</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--t2)">موز فقط</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">موز + تفاح + كيوي + برتقال</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">4× تنوع</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">نافذة التشغيل</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">4 ساعات</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">6.5 ساعة</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">+63% وقت</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">حرارة المجمع الشمسي</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">55°C</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">63.4°C</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">مُعايَرة</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">حرارة غرفة التجفيف</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">45°C</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">57.6°C</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">+8°C+</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">الرطوبة النسبية النهائية</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">33.5%</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--sky);font-weight:700">22.2%</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(56,189,248,.1);color:var(--sky);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">آمنة غذائياً</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">الفقد الحراري في الأنبوب</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">&gt; 8°C (أنبوب 10سم)</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">6°C (أنبوب 5سم)</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">تقليص 25%</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">سمك الشرائح</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">متفاوت (يدوي)</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">موحّد 3-4 مم</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">تجفيف متجانس</span></td>
+            </tr>
+            <tr style="border-bottom:1px solid rgba(255,255,255,.04);background:rgba(255,255,255,.015)">
+              <td style="padding:13px 18px;color:var(--t2);font-weight:600">مثبّط الأكسدة (PPO)</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">ليمون طبيعي (ضعيف)</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:700">حمض ستريك نقي + عسل</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.1);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">صفر اسمرار</span></td>
+            </tr>
+            <tr style="background:rgba(52,211,153,.04)">
+              <td style="padding:13px 18px;color:var(--t0);font-weight:800">جودة المنتج النهائي</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--red);font-weight:700">مطاطي، بقع بنية ❌</td>
+              <td style="padding:13px 18px;text-align:center;color:var(--emerald);font-weight:800">مقرمش، ألوان زاهية ✅</td>
+              <td style="padding:13px 18px;text-align:center"><span style="background:rgba(52,211,153,.15);color:var(--emerald);padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:700">🏆 مثالي</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row rv" style="margin-top:48px">
+      <div class="r-img"><img src="تجربة تانية منتج نهائي.jpeg" alt="برتقال مجفف"><span class="badge">المنتج النهائي</span><div class="corner-glow"></div></div>
+      <div class="r-txt">
+        <span class="tag" style="background:rgba(52,211,153,.1);color:var(--emerald)">النتيجة</span>
+        <h3>فواكه مجففة بجودة استثنائية 🍊</h3>
+        <p>شرائح البرتقال من التجربة الثانية: ألوان طبيعية محفوظة بالكامل، بنية مقرمشة مثالية بدون أي اسمرار إنزيمي. المنتج يطابق المواصفات الغذائية القياسية للفواكه المجففة عالية الجودة.</p>
+      </div>
+    </div>
+
+    <div class="rv" style="margin-top:52px">
+      <h3 style="font-size:1.1rem;margin-bottom:22px;color:var(--t0)">📊 جدول المقارنة التحليلي</h3>
+      <div class="tbl-w">
+        <table>
+          <thead><tr><th>وجه المقارنة</th><th>التجربة الأولى ❌</th><th>التجربة الثانية ✅</th></tr></thead>
+          <tbody>
+            <tr><td>زمن التشغيل</td><td class="b">4 ساعات</td><td class="g">6.5 ساعة</td></tr>
+            <tr><td>طول الأنبوب</td><td class="b">10 سم — عزل ضعيف</td><td class="g">5 سم — معزول بإحكام</td></tr>
+            <tr><td>المحاصيل</td><td>موز فقط</td><td class="g">موز، تفاح، كيوي، برتقال</td></tr>
+            <tr><td>المعالجة</td><td class="b">ليمون طبيعي مخفف</td><td class="g">حمض ستريك + عسل أبيض</td></tr>
+            <tr><td>تجانس الشرائح</td><td class="b">تقطيع يدوي متفاوت</td><td class="g">سمك هندسي موحد</td></tr>
+            <tr><td>حرارة المجمع</td><td class="b">55°C</td><td class="g">63.4°C</td></tr>
+            <tr><td>حرارة المجفف</td><td class="b">45°C</td><td class="g">57.6°C</td></tr>
+            <tr><td>الرطوبة</td><td class="b">33.5%</td><td class="g">22.2%</td></tr>
+            <tr><td>اللون</td><td class="b">اسمرار وبقع بنية</td><td class="g">ألوان طبيعية زاهية</td></tr>
+            <tr><td>الملمس</td><td class="b">مطاطي</td><td class="g">مقرمش ومثالي</td></tr>
+            <tr><td>التقييم</td><td class="b">غير متكامل</td><td class="g">نجاح كامل ✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ THERMAL POWER SECTION ═══════════ -->
+<section id="thermal-power">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">الهندسة الحرارية</div></div>
+    <h2 class="heading rv rv-d1">ما هي القدرة الحرارية؟ ولماذا هي قلب النظام؟</h2>
+    <p class="sub rv rv-d2">القدرة الحرارية (Thermal Power) هي معدل انتقال الطاقة الحرارية عبر الزمن — المقياس الأكثر أهمية في أي نظام تجفيف شمسي. ففهمها يكشف لماذا نجح ECODRY TECH حيث أخفقت تصاميم أخرى.</p>
+
+    <!-- THERMAL POWER CONCEPT CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:64px" class="rv">
+      <div style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(251,191,36,.04));border:1px solid rgba(251,191,36,.2);border-radius:var(--r-lg);padding:28px;position:relative;overflow:hidden;transition:all .4s var(--ease)" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="position:absolute;top:-20px;left:-20px;width:100px;height:100px;background:var(--solar);opacity:.04;border-radius:50%;filter:blur(30px)"></div>
+        <div style="font-size:2.2rem;margin-bottom:14px">🌡️</div>
+        <div style="font-size:1rem;font-weight:800;color:var(--t0);margin-bottom:10px">ما هي القدرة الحرارية؟</div>
+        <div style="font-size:.88rem;color:var(--t2);line-height:1.9">هي الطاقة الحرارية المنتجة في الثانية الواحدة. تُقاس بالواط (W). المعادلة الأساسية: <code style="background:rgba(251,191,36,.1);padding:3px 8px;border-radius:6px;color:var(--solar)">Q = ṁ × Cp × ΔT</code> حيث ṁ معدل تدفق الهواء، Cp السعة الحرارية، ΔT فرق الحرارة.</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(56,189,248,.04));border:1px solid rgba(56,189,248,.2);border-radius:var(--r-lg);padding:28px;position:relative;overflow:hidden;transition:all .4s var(--ease)" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="font-size:2.2rem;margin-bottom:14px">💡</div>
+        <div style="font-size:1rem;font-weight:800;color:var(--t0);margin-bottom:10px">لماذا مهمة في التجفيف؟</div>
+        <div style="font-size:.88rem;color:var(--t2);line-height:1.9">لتبخير الرطوبة من الغذاء، تحتاج كمية محددة من الطاقة الحرارية. كلما ارتفعت القدرة الحرارية، زادت كمية الرطوبة المُزالة في نفس الزمن، وقصرت مدة التجفيف، وتحسنت جودة المنتج.</div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(52,211,153,.08),rgba(52,211,153,.04));border:1px solid rgba(52,211,153,.2);border-radius:var(--r-lg);padding:28px;position:relative;overflow:hidden;transition:all .4s var(--ease)" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="font-size:2.2rem;margin-bottom:14px">⚡</div>
+        <div style="font-size:1rem;font-weight:800;color:var(--t0);margin-bottom:10px">القدرة الحرارية لـ ECODRY TECH</div>
+        <div style="font-size:.88rem;color:var(--t2);line-height:1.9">المجمع الشمسي ينتج <strong style="color:var(--emerald)">450 واط حراري</strong> بكفاءة 75%. هذا يكفي لرفع حرارة غرفة التجفيف من 31°C إلى 57.6°C — زيادة 26.6°C — وهو ما يحقق التجفيف الكامل في 6.5 ساعة.</div>
+      </div>
+    </div>
+
+    <!-- THERMAL CHAIN -->
+    <div class="rv" style="margin-bottom:60px">
+      <h3 style="font-size:1.15rem;font-weight:800;color:var(--t0);margin-bottom:28px;text-align:center">🔗 سلسلة الطاقة الحرارية الكاملة</h3>
+      <div style="display:flex;align-items:stretch;gap:0;overflow-x:auto;padding:0 4px">
+        <div style="flex:1;min-width:130px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:var(--r-md) 0 0 var(--r-md);padding:20px 16px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">☀️</div>
+          <div style="font-size:.78rem;font-weight:700;color:var(--solar);margin-bottom:4px">إشعاع شمسي</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--t0)">1000 W/m²</div>
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px">معدل سوهاج</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;background:rgba(255,255,255,.02)"><div style="color:var(--solar);font-size:1.2rem">→</div></div>
+        <div style="flex:1;min-width:130px;background:rgba(251,191,36,.06);border-top:1px solid rgba(251,191,36,.15);border-bottom:1px solid rgba(251,191,36,.15);padding:20px 16px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">🏭</div>
+          <div style="font-size:.78rem;font-weight:700;color:var(--solar);margin-bottom:4px">المجمع الشمسي</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--t0)">63.4°C</div>
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px">حرارة المجمع</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;background:rgba(255,255,255,.02)"><div style="color:var(--solar);font-size:1.2rem">→</div></div>
+        <div style="flex:1;min-width:130px;background:rgba(52,211,153,.06);border-top:1px solid rgba(52,211,153,.15);border-bottom:1px solid rgba(52,211,153,.15);padding:20px 16px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">💨</div>
+          <div style="font-size:.78rem;font-weight:700;color:var(--emerald);margin-bottom:4px">انتقال حراري</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--t0)">450 W</div>
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px">قدرة حرارية</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;background:rgba(255,255,255,.02)"><div style="color:var(--emerald);font-size:1.2rem">→</div></div>
+        <div style="flex:1;min-width:130px;background:rgba(52,211,153,.07);border-top:1px solid rgba(52,211,153,.2);border-bottom:1px solid rgba(52,211,153,.2);padding:20px 16px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">🌡️</div>
+          <div style="font-size:.78rem;font-weight:700;color:var(--emerald);margin-bottom:4px">غرفة التجفيف</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--t0)">57.6°C</div>
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px">درجة مستقرة</div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 6px;background:rgba(255,255,255,.02)"><div style="color:var(--emerald);font-size:1.2rem">→</div></div>
+        <div style="flex:1;min-width:130px;background:rgba(56,189,248,.07);border:1px solid rgba(56,189,248,.2);border-radius:0 var(--r-md) var(--r-md) 0;padding:20px 16px;text-align:center">
+          <div style="font-size:1.6rem;margin-bottom:8px">✅</div>
+          <div style="font-size:.78rem;font-weight:700;color:var(--sky);margin-bottom:4px">رطوبة نهائية</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--t0)">22.2%</div>
+          <div style="font-size:.68rem;color:var(--t3);margin-top:4px">آمنة غذائياً</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THERMAL PERFORMANCE METRICS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:48px" class="rv">
+      <div style="background:var(--glass);border:1px solid var(--b1);border-radius:var(--r-md);padding:22px;text-align:center">
+        <div style="font-family:var(--fe);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">450W</div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--t0);margin-bottom:4px">قدرة حرارية</div>
+        <div style="font-size:.7rem;color:var(--t3)">Thermal Output</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--b1);border-radius:var(--r-md);padding:22px;text-align:center">
+        <div style="font-family:var(--fe);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">75%</div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--t0);margin-bottom:4px">كفاءة حرارية</div>
+        <div style="font-size:.7rem;color:var(--t3)">Thermal Efficiency</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--b1);border-radius:var(--r-md);padding:22px;text-align:center">
+        <div style="font-family:var(--fe);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">31°</div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--t0);margin-bottom:4px">زاوية الميل المثالية</div>
+        <div style="font-size:.7rem;color:var(--t3)">Optimal Tilt Angle</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--b1);border-radius:var(--r-md);padding:22px;text-align:center">
+        <div style="font-family:var(--fe);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">>90%</div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--t0);margin-bottom:4px">امتصاصية السطح</div>
+        <div style="font-size:.7rem;color:var(--t3)">Absorber Plate</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--b1);border-radius:var(--r-md);padding:22px;text-align:center">
+        <div style="font-family:var(--fe);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--solar),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">84W</div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--t0);margin-bottom:4px">استهلاك كهربي</div>
+        <div style="font-size:.7rem;color:var(--t3)">Electrical Consumption</div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--b1);border-radius:var(--r-md);padding:22px;text-align:center">
+        <div style="font-family:var(--fe);font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--emerald),var(--sky));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">$0</div>
+        <div style="font-size:.78rem;font-weight:700;color:var(--t0);margin-bottom:4px">تكلفة تشغيل</div>
+        <div style="font-size:.7rem;color:var(--t3)">Zero Operating Cost</div>
+      </div>
+    </div>
+
+    <!-- HOW THERMAL POWER AFFECTS RESULTS -->
+    <div class="rv" style="background:linear-gradient(135deg,rgba(251,191,36,.05),rgba(56,189,248,.04));border:1px solid rgba(251,191,36,.15);border-radius:var(--r-lg);padding:36px">
+      <h3 style="font-size:1.05rem;font-weight:800;color:var(--t0);margin-bottom:20px">🔬 كيف أثّرت القدرة الحرارية على نتائج المشروع؟</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div>
+          <div style="font-size:.82rem;font-weight:700;color:var(--solar);margin-bottom:10px;letter-spacing:1px">التجربة الأولى — قدرة حرارية غير كافية</div>
+          <ul style="list-style:none">
+            <li style="display:flex;gap:10px;margin-bottom:8px;font-size:.85rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>أنبوب طويل (10 سم) — فقد حراري يتجاوز 8°C</li>
+            <li style="display:flex;gap:10px;margin-bottom:8px;font-size:.85rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>نافذة تشغيل 4 ساعات فقط — طاقة تراكمية غير كافية</li>
+            <li style="display:flex;gap:10px;margin-bottom:8px;font-size:.85rem;color:var(--t2)"><span style="color:var(--red);flex-shrink:0">✗</span>النتيجة: ملمس مطاطي، تجفيف غير متكامل</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-size:.82rem;font-weight:700;color:var(--emerald);margin-bottom:10px;letter-spacing:1px">التجربة الثانية — قدرة حرارية مُحسَّنة</div>
+          <ul style="list-style:none">
+            <li style="display:flex;gap:10px;margin-bottom:8px;font-size:.85rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>أنبوب مقصّر (5 سم) + عزل محكم — فقد أقل من 3°C</li>
+            <li style="display:flex;gap:10px;margin-bottom:8px;font-size:.85rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>نافذة تشغيل 6.5 ساعة — استغلال ذروة الإشعاع</li>
+            <li style="display:flex;gap:10px;margin-bottom:8px;font-size:.85rem;color:var(--t2)"><span style="color:var(--emerald);flex-shrink:0">✓</span>النتيجة: 57.6°C مستقرة، رطوبة 22.2%، منتج مثالي</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:14px 18px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);border-radius:var(--r-sm);font-size:.85rem;color:var(--t2);line-height:1.8">
+        💡 <strong style="color:var(--emerald)">الدرس الهندسي:</strong> كل درجة مئوية مكتسبة في غرفة التجفيف تعني معدل تبخير أعلى. تخفيض فقد الحرارة بـ 5°C (من تقليص الأنبوب وعزله) أضاف ما يعادل <strong style="color:var(--emerald)">~90 واط حراري إضافي</strong> للنظام بدون أي تكلفة.
+      </div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ GALLERY ═══════════ -->
+<section id="gal">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">معرض الصور</div></div>
+    <h2 class="heading rv rv-d1">مراحل التصميم والتنفيذ</h2>
+    <p class="sub rv rv-d2">توثيق بصري شامل لرحلة بناء المشروع من الصفر.</p>
+    <div class="gal rv">
+      <div class="gi" onclick="openLB(this)"><img src="المشروع امامي.jpeg"><div class="gc">النظام المتكامل — أمامي</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="المشروع خلفي.jpeg"><div class="gc">النظام المتكامل — خلفي</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="تخشيب و صاج.jpeg"><div class="gc">مرحلة التخشيب والصاج</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="عزل المجمع و المجفف.jpeg"><div class="gc">تنفيذ العزل الحراري</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="صورتي و انا بعزل المجفف.jpeg"><div class="gc">قائد المشروع أثناء العزل</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="المنصه 2.jpeg"><div class="gc">واجهة IoT — عرض ثانٍ</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="تجربة تانية منتج نهائي2.jpeg"><div class="gc">فواكه مجففة متنوعة</div></div>
+      <div class="gi" onclick="openLB(this)"><img src="صورتي مع الشكل الاول للمشروع بعد الانتهاء .jpeg"><div class="gc">أحمد صلاح — Team Leader</div></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ TEAM ═══════════ -->
+<section id="team">
+  <div class="wrap">
+    <div class="rv"><div class="eyebrow">الإشراف والفريق</div></div>
+    <h2 class="heading rv rv-d1">المشرفون الأكاديميون</h2>
+    <div class="sup-g rv rv-d2">
+      <div class="sc"><div class="av">هـ</div><div><h4>أ.د/ هيدرا محفوظ إبراهيم</h4><p>رئيس قسم الكهرباء</p></div></div>
+      <div class="sc"><div class="av">هـ</div><div><h4>د/ هبة أحمد محمود</h4><p>مدرس بقسم الكهرباء</p></div></div>
+      <div class="sc"><div class="av">أ</div><div><h4>م/ أحمد إبراهيم محمد</h4><p>معيد بقسم الكهرباء</p></div></div>
+      <div class="sc"><div class="av">م</div><div><h4>م/ محمد فتحي زكي</h4><p>معيد بقسم الكهرباء</p></div></div>
+    </div>
+
+    <h2 class="heading rv" style="margin-top:32px">فريق ECODRY TECH</h2>
+    <p class="sub rv rv-d1">11 مهندساً ومهندسة حوّلوا هذه الفكرة إلى واقع.</p>
+    <div class="mf rv rv-d2">
+      <div class="mm ld">⭐ أحمد صلاح عطا أحمد — Team Leader</div>
+      <div class="mm">إسلام عبد الناصر</div>
+      <div class="mm">سعد يوسف</div>
+      <div class="mm">مريم سمير</div>
+      <div class="mm">إسراء محمد</div>
+      <div class="mm">هايدى شعبان</div>
+      <div class="mm">مادونا سميح</div>
+      <div class="mm">مارتين عزت</div>
+      <div class="mm">جاكلين شحاتة</div>
+      <div class="mm">شهد محمد</div>
+      <div class="mm">منه بخيت</div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════ CTA SECTION ═══════════ -->
+<section id="cta-pages" style="padding:80px 0;border-top:1px solid var(--b0)">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;margin-bottom:48px">
+      <div class="eyebrow">استكشف المزيد</div>
+      <h2 class="heading" style="margin-top:8px">أقسام الموقع الأخرى</h2>
+      <p class="sub" style="margin-top:12px">كل ما تحتاجه لفهم المشروع كاملاً — من المكوّنات الإلكترونية إلى التحليل التنافسي العالمي.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px" class="rv">
+
+      <!-- Components Guide CTA -->
+      <div style="background:linear-gradient(135deg,rgba(56,189,248,.07),rgba(10,17,40,.6));border:1px solid rgba(56,189,248,.25);border-radius:var(--r-lg);padding:40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-height:300px;transition:transform .3s var(--ease),box-shadow .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 24px 60px rgba(56,189,248,.12)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div style="position:absolute;top:-40px;left:-40px;width:200px;height:200px;background:rgba(56,189,248,.05);border-radius:50%;filter:blur(60px);pointer-events:none"></div>
+        <div style="position:absolute;bottom:-10px;right:-10px;font-size:7rem;opacity:.05;line-height:1;pointer-events:none">⚙️</div>
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.2);border-radius:30px;padding:5px 14px;font-size:.72rem;font-weight:700;color:var(--sky);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px">⚙️ Technical Guide</div>
+          <h3 style="font-size:1.35rem;font-weight:900;color:var(--t0);line-height:1.4;margin-bottom:10px">الدليل الشامل للمكوّنات<br>ونظام التحكم</h3>
+          <p style="font-size:.86rem;color:var(--t2);line-height:1.85;margin-bottom:20px">شرح تفصيلي لكل مكوّن: ESP32، IRLZ44N MOSFET، DHT22، DS18B20. التوصيلات الكاملة، منطق التحكم التلقائي، الكود البرمجي، ودائرة الحماية.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px">
+            <span style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.18);border-radius:20px;padding:3px 11px;font-size:.7rem;color:var(--sky)">ESP32 DevKit</span>
+            <span style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.18);border-radius:20px;padding:3px 11px;font-size:.7rem;color:var(--sky)">3× MOSFET</span>
+            <span style="background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.18);border-radius:20px;padding:3px 11px;font-size:.7rem;color:var(--sky)">WiFi Dashboard</span>
+          </div>
+        </div>
+        <a href="solar_dryer_guide.html" id="cta-guide-btn" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--sky),rgba(56,189,248,.75));color:#030712;padding:13px 26px;border-radius:var(--r-sm);font-size:.88rem;font-weight:800;text-decoration:none;width:fit-content">
+          استعرض الدليل التقني ⟵
+        </a>
+      </div>
+
+      <!-- Benchmark CTA -->
+      <div style="background:linear-gradient(135deg,rgba(251,191,36,.07),rgba(10,17,40,.6));border:1px solid rgba(251,191,36,.25);border-radius:var(--r-lg);padding:40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-height:300px;transition:transform .3s var(--ease),box-shadow .3s" onmouseover="this.style.transform='translateY(-6px)';this.style.boxShadow='0 24px 60px rgba(251,191,36,.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+        <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(251,191,36,.04);border-radius:50%;filter:blur(60px);pointer-events:none"></div>
+        <div style="position:absolute;bottom:-10px;left:-10px;font-size:7rem;opacity:.05;line-height:1;pointer-events:none">📊</div>
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);border-radius:30px;padding:5px 14px;font-size:.72rem;font-weight:700;color:var(--solar);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:18px">📊 Competitive Analysis</div>
+          <h3 style="font-size:1.35rem;font-weight:900;color:var(--t0);line-height:1.4;margin-bottom:10px">التحليل التنافسي العالمي<br>مقارنة بـ 7 أنظمة منافسة</h3>
+          <p style="font-size:.86rem;color:var(--t2);line-height:1.85;margin-bottom:20px">تحليل هندسي معمّق لـ 7 منافسين من مصر والعالم — مصفوفة 25 معياراً، مخطط رادار، وموقع ECODRY TECH التنافسي الواضح.</p>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px">
+            <span style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.18);border-radius:20px;padding:3px 11px;font-size:.7rem;color:var(--solar)">7 منافسين</span>
+            <span style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.18);border-radius:20px;padding:3px 11px;font-size:.7rem;color:var(--solar)">25 معياراً</span>
+            <span style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.18);border-radius:20px;padding:3px 11px;font-size:.7rem;color:var(--solar)">Radar Chart</span>
+          </div>
+        </div>
+        <a href="benchmark-section.html" id="cta-bench-btn" style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--solar),rgba(251,191,36,.75));color:#030712;padding:13px 26px;border-radius:var(--r-sm);font-size:.88rem;font-weight:800;text-decoration:none;width:fit-content">
+          استعرض التحليل التنافسي ⟵
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="fb">☀️ ECODRY TECH — Smart Solar Drying Systems</div>
+  <p>Faculty of Technology &amp; Education — Sohag University, Egypt</p>
+  <p style="margin-top:6px">© 2026 Graduation Project — Electrical Power &amp; Machines Department</p>
+  <div style="margin-top:18px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap">
+    <a href="index.html" style="color:var(--solar);font-size:.8rem;font-weight:600;text-decoration:none">🏠 الرئيسية</a>
+    <span style="color:var(--b1)">|</span>
+    <a href="benchmark-section.html" style="color:var(--emerald);font-size:.8rem;font-weight:600;text-decoration:none">📊 Benchmark</a>
+    <span style="color:var(--b1)">|</span>
+    <a href="solar_dryer_guide.html" style="color:var(--sky);font-size:.8rem;font-weight:600;text-decoration:none">⚙️ Components Guide</a>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lb" id="lb" onclick="closeLB()"><img id="lbi" src="" alt=""></div>
+
+<script>
+/* ═══ PARTICLE SYSTEM ═══ */
+(function(){
+  const c=document.getElementById('particles'),x=c.getContext('2d');
+  let w,h,pts=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight}
+  resize();addEventListener('resize',resize);
+  for(let i=0;i<60;i++)pts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.5,dx:(Math.random()-.5)*.3,dy:(Math.random()-.5)*.3,o:Math.random()*.4+.1});
+  function draw(){
+    x.clearRect(0,0,w,h);
+    pts.forEach(p=>{
+      p.x+=p.dx;p.y+=p.dy;
+      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
+      x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);
+      x.fillStyle=`rgba(251,191,36,${p.o})`;x.fill();
+    });
+    // connect nearby
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+      if(d<140){x.beginPath();x.moveTo(pts[i].x,pts[i].y);x.lineTo(pts[j].x,pts[j].y);
+      x.strokeStyle=`rgba(251,191,36,${.06*(1-d/140)})`;x.lineWidth=.5;x.stroke()}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══ LOADER ═══ */
+addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hide'),600)});
+
+/* ═══ SCROLL REVEAL ═══ */
+const obs=new IntersectionObserver(e=>{e.forEach(el=>{if(el.isIntersecting)el.target.classList.add('vis')})},{threshold:.06,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* ═══ NAVBAR ═══ */
+addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>60)});
+
+/* ═══ ANIMATED COUNTERS ═══ */
+const cobs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){
+  const el=e.target,end=parseInt(el.dataset.count);
+  if(!end||el.dataset.done)return;el.dataset.done='1';
+  let cur=0;const step=Math.ceil(end/50);
+  const iv=setInterval(()=>{cur+=step;if(cur>=end){cur=end;clearInterval(iv)}el.textContent=cur},25);
+}})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(el=>cobs.observe(el));
+
+/* ═══ LIGHTBOX ═══ */
+function openLB(el){const img=el.tagName==='IMG'?el:el.querySelector('img');document.getElementById('lbi').src=img.src;document.getElementById('lb').classList.add('show')}
+function closeLB(){document.getElementById('lb').classList.remove('show')}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
+
+/* ═══ DASHBOARD SIM ═══ */
+(function(){
+  const B={d:57.6,c:63.4,h:22.2};
+  setInterval(()=>{
+    const d=(B.d+(Math.random()-.5)*4).toFixed(1);
+    const c=(B.c+(Math.random()-.5)*5).toFixed(1);
+    const h=(B.h+(Math.random()-.5)*6).toFixed(1);
+    document.getElementById('gd').textContent=d+'°C';
+    document.getElementById('gc').textContent=c+'°C';
+    document.getElementById('gh').textContent=h+'%';
+    document.getElementById('bd').style.width=(d/80*100)+'%';
+    document.getElementById('bc').style.width=(c/80*100)+'%';
+    document.getElementById('bh').style.width=h+'%';
+  },2000);
+})();
+</script>
+</body>
+</html>

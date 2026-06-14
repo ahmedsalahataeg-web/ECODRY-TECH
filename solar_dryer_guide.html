@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المجفف الشمسي الذكي — الدليل الشامل</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #07060400;
+  --bg0:      #080603;
+  --bg1:      #100d08;
+  --bg2:      #16120c;
+  --bg3:      #1e1911;
+  --border:   #2e2518;
+  --border2:  #3d3220;
+  --amber:    #f59e0b;
+  --amber2:   #fbbf24;
+  --amber-dim:#7c4f06;
+  --cyan:     #22d3ee;
+  --cyan-dim: #0e4f5e;
+  --green:    #34d399;
+  --green-dim:#0c4f38;
+  --red:      #f87171;
+  --red-dim:  #5c1e1e;
+  --purple:   #a78bfa;
+  --purple-dim:#3b2a72;
+  --text:     #e8d9bf;
+  --text2:    #b09070;
+  --text3:    #6b5040;
+  --shadow:   0 4px 20px rgba(0,0,0,0.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg0);color:var(--text);font-family:'Tajawal',sans-serif;font-size:15px;min-height:100vh;overflow-x:hidden}
+a{color:var(--amber);text-decoration:none}
+strong{color:var(--amber2);font-weight:700}
+code{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--cyan);direction:ltr;unicode-bidi:embed}
+
+/* ═══ HEADER ═══ */
+header{
+  background:linear-gradient(180deg,#0f0b06 0%,#07060300 100%);
+  border-bottom:1px solid var(--border);
+  padding:20px 28px 18px;
+  display:flex;align-items:center;gap:18px;
+  position:sticky;top:0;z-index:150;
+  backdrop-filter:blur(12px);
+}
+.h-icon{
+  width:52px;height:52px;flex-shrink:0;
+  background:radial-gradient(circle at 40% 40%, #fde68a, #f59e0b 50%, #92400e);
+  border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;
+  box-shadow:0 0 24px rgba(245,158,11,.35), 0 0 60px rgba(245,158,11,.1);
+}
+.h-text .title{font-size:19px;font-weight:900;color:#fff;letter-spacing:-0.3px}
+.h-text .sub{font-size:11px;color:var(--text3);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.h-badges{margin-right:auto;display:flex;gap:8px;flex-wrap:wrap}
+.badge{
+  padding:3px 10px;border-radius:5px;font-size:10.5px;font-weight:700;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.03em;
+}
+.b-amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.3)}
+.b-cyan{background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.25)}
+.b-green{background:rgba(52,211,153,.1);color:var(--green);border:1px solid rgba(52,211,153,.25)}
+
+/* ═══ NAV ═══ */
+nav{
+  background:var(--bg1);border-bottom:1px solid var(--border);
+  display:flex;overflow-x:auto;padding:0 20px;
+  position:sticky;top:54px;z-index:99;
+  -webkit-overflow-scrolling:touch;
+}
+nav::-webkit-scrollbar{height:2px}
+nav::-webkit-scrollbar-thumb{background:var(--border2)}
+.tab{
+  padding:12px 20px;cursor:pointer;font-size:13px;font-weight:600;
+  color:var(--text3);border-bottom:2px solid transparent;
+  white-space:nowrap;transition:.2s;user-select:none;
+}
+.tab:hover{color:var(--text2)}
+.tab.on{color:var(--amber);border-bottom-color:var(--amber)}
+
+/* ═══ PANES ═══ */
+.pane{display:none;padding:28px 24px 60px;max-width:1200px;margin:0 auto;animation:fadeIn .3s ease}
+.pane.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ SECTION HEADERS ═══ */
+.sec-title{font-size:22px;font-weight:900;color:#fff;margin-bottom:4px}
+.sec-sub{font-size:13px;color:var(--text3);margin-bottom:28px;line-height:1.6}
+.sep{height:1px;background:var(--border);margin:28px 0}
+
+/* ═══ GRID ═══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:860px){.g2,.g3{grid-template-columns:1fr}}
+.full{grid-column:1/-1}
+
+/* ═══ CARDS ═══ */
+.card{
+  background:var(--bg1);border:1px solid var(--border);
+  border-radius:12px;padding:20px;
+  transition:border-color .2s;
+}
+.card:hover{border-color:var(--border2)}
+.card-title{
+  font-size:13px;font-weight:700;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+  padding-bottom:12px;margin-bottom:14px;
+  border-bottom:1px solid var(--border);
+}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* ═══ COMPONENT CARDS ═══ */
+.comp-card{
+  background:var(--bg1);border:1px solid var(--border);
+  border-radius:14px;padding:18px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:.2s;position:relative;overflow:hidden;
+}
+.comp-card::before{
+  content:'';position:absolute;top:0;right:0;
+  width:3px;height:100%;border-radius:0 14px 14px 0;
+}
+.comp-card.amber::before{background:var(--amber)}
+.comp-card.cyan::before{background:var(--cyan)}
+.comp-card.green::before{background:var(--green)}
+.comp-card.purple::before{background:var(--purple)}
+.comp-card.red::before{background:var(--red)}
+.comp-card:hover{border-color:var(--border2);transform:translateY(-1px)}
+.comp-icon{font-size:28px;line-height:1}
+.comp-name{font-size:15px;font-weight:900;color:#fff}
+.comp-model{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--amber);
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);
+  padding:2px 8px;border-radius:4px;display:inline-block;margin-top:2px}
+.comp-desc{font-size:13px;color:var(--text2);line-height:1.7}
+.comp-analogy{
+  background:rgba(34,211,238,.06);border:1px solid rgba(34,211,238,.18);
+  border-radius:8px;padding:10px 12px;font-size:12px;color:var(--cyan);line-height:1.6;
+}
+.comp-analogy::before{content:"💡 المقارنة: ";font-weight:700}
+.comp-conn{
+  background:var(--bg3);border-radius:6px;padding:8px 12px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--green);
+  direction:ltr;unicode-bidi:embed;text-align:left;
+}
+
+/* ═══ TABLES ═══ */
+table{width:100%;border-collapse:collapse}
+th{text-align:right;padding:9px 12px;background:var(--bg3);color:var(--text3);
+   font-size:11px;text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+td{padding:8px 12px;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg2)}
+.td-mono{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--cyan);direction:ltr;unicode-bidi:embed}
+.td-green{color:var(--green)}
+.td-amber{color:var(--amber)}
+.td-red{color:var(--red)}
+.td-purple{color:var(--purple)}
+
+/* ═══ INFO BOXES ═══ */
+.info-box{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);
+  border-radius:10px;padding:14px 16px;margin:12px 0}
+.warn-box{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.2);
+  border-radius:10px;padding:14px 16px;margin:12px 0}
+.danger-box{background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.2);
+  border-radius:10px;padding:14px 16px;margin:12px 0}
+.box-title{font-size:12px;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.box-body{font-size:13px;line-height:1.8;color:var(--text2)}
+
+/* ═══ CODE BLOCKS ═══ */
+.fn-card{
+  background:var(--bg1);border:1px solid var(--border);
+  border-radius:14px;margin-bottom:20px;overflow:hidden;
+}
+.fn-header{
+  padding:14px 18px;background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:12px;
+}
+.fn-num{
+  width:32px;height:32px;border-radius:8px;flex-shrink:0;
+  background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);
+  color:var(--amber);font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+}
+.fn-name{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--amber);font-weight:600}
+.fn-name-ar{font-size:12px;color:var(--text3);margin-top:2px}
+.fn-body{padding:18px}
+.fn-what{
+  font-size:14px;color:var(--text);line-height:1.75;margin-bottom:14px;
+  padding-bottom:14px;border-bottom:1px solid var(--border);
+}
+.fn-analogy{
+  background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.2);
+  border-radius:8px;padding:10px 14px;font-size:13px;color:var(--purple);
+  line-height:1.7;margin-bottom:14px;
+}
+.fn-analogy::before{content:"🔄 تشبيه: ";font-weight:700}
+pre{
+  background:#060400;border:1px solid var(--border);border-radius:8px;
+  padding:16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;
+  line-height:1.8;overflow-x:auto;direction:ltr;text-align:left;margin:10px 0;
+}
+.kw{color:#c792ea}
+.fn-c{color:#82aaff}
+.str{color:#c3e88d}
+.cm{color:#4a6070;font-style:italic}
+.cm-ar{color:#7c6840;font-style:italic;direction:rtl}
+.num{color:#f78c6c}
+.tp{color:#ffcb6b}
+.pp{color:#c792ea}
+.def{color:#f59e0b}
+
+/* ═══ FLOW DIAGRAM ═══ */
+.flow-step{
+  display:flex;align-items:flex-start;gap:14px;margin-bottom:10px;
+}
+.flow-dot{
+  width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:5px;
+}
+.flow-line{
+  width:10px;height:24px;border-right:2px dashed var(--border2);
+  margin-right:4px;margin-top:0;
+}
+.flow-text{font-size:13.5px;line-height:1.65;color:var(--text2)}
+.flow-text strong{color:var(--text)}
+
+/* ═══ OVERVIEW DIAGRAM ═══ */
+.sys-diagram{
+  background:var(--bg1);border:1px solid var(--border);
+  border-radius:14px;padding:10px;overflow:hidden;
+}
+
+/* ═══ PROTECTION CARDS ═══ */
+.prot-card{
+  background:var(--bg1);border:1px solid var(--border);border-radius:12px;
+  padding:18px;margin-bottom:12px;
+  display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;
+}
+.prot-icon{font-size:26px;padding-top:2px}
+.prot-why{
+  background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);
+  border-radius:6px;padding:8px 12px;font-size:12px;color:var(--red);
+  line-height:1.6;min-width:200px;
+}
+.prot-why::before{content:"⚠️ بدونه: ";font-weight:700}
+
+/* ═══ PHASE STEPS ═══ */
+.phases{display:flex;flex-direction:column;gap:8px}
+.phase{border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;transition:.2s}
+.phase:hover{border-color:var(--border2)}
+.ph-num{
+  min-width:52px;display:flex;align-items:center;justify-content:center;
+  font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;
+  border-left:3px solid;
+}
+.ph-num.g{background:rgba(52,211,153,.07);color:var(--green);border-color:var(--green)}
+.ph-num.a{background:rgba(245,158,11,.07);color:var(--amber);border-color:var(--amber)}
+.ph-num.r{background:rgba(248,113,113,.07);color:var(--red);border-color:var(--red)}
+.ph-body{padding:10px 16px;background:var(--bg2);flex:1}
+.ph-title{font-size:13.5px;font-weight:700;color:#fff}
+.ph-desc{font-size:12px;color:var(--text3);margin-top:3px;line-height:1.6}
+
+/* ═══ SCROLLBAR ═══ */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg1)}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:640px){
+  header{padding:14px 16px;gap:12px}
+  .h-icon{width:42px;height:42px;font-size:22px}
+  .h-text .title{font-size:16px}
+  .h-badges{display:none}
+  .pane{padding:20px 14px 50px}
+  .prot-card{grid-template-columns:auto 1fr}
+  .prot-why{display:none}
+}
+/* ═══ GLOBAL NAV ═══ */
+.g-nav{position:sticky;top:0;width:100%;z-index:200;backdrop-filter:blur(22px) saturate(1.5);background:rgba(8,6,3,0.9);border-bottom:1px solid var(--border2);box-shadow:0 4px 24px rgba(0,0,0,.5)}
+.g-nav-in{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:54px}
+.g-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.g-brand-icon{width:30px;height:30px;border-radius:8px;background:radial-gradient(circle at 40% 40%,#fde68a,#f59e0b 50%,#92400e);display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.g-brand-name{font-weight:700;font-size:.9rem;color:var(--text);letter-spacing:.3px}
+.g-links{display:flex;align-items:center;gap:3px}
+.g-links a{padding:6px 13px;border-radius:6px;font-size:.77rem;font-weight:600;color:var(--text3);text-decoration:none;transition:all .25s;white-space:nowrap}
+.g-links a:hover{color:var(--amber);background:rgba(245,158,11,.07)}
+.g-links a.active{color:var(--amber);background:rgba(245,158,11,.09)}
+.g-sep{width:1px;height:16px;background:var(--border2);margin:0 4px}
+.g-pill{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:6px;font-size:.74rem;font-weight:700;border:1px solid;transition:all .25s;text-decoration:none;white-space:nowrap}
+.g-pill.green{color:var(--green);border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.06)}
+.g-pill.green:hover{background:rgba(52,211,153,.12);border-color:var(--green);transform:translateY(-1px)}
+.g-pill.amber-p{color:var(--amber);border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.06)}
+.g-pill.amber-p:hover{background:rgba(245,158,11,.12);border-color:var(--amber);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HEADER ═══════════════════ -->
+<header>
+  <div class="h-icon">☀️</div>
+  <div class="h-text">
+    <div class="title">المجفف الشمسي الهجين الذكي</div>
+    <div class="sub">الدليل التعليمي الشامل — من المكوّن إلى السطر الأخير في الكود</div>
+  </div>
+  <div class="h-badges">
+    <span class="badge b-amber">ESP32</span>
+    <span class="badge b-cyan">3× MOSFET</span>
+    <span class="badge b-green">WiFi Dashboard</span>
+  </div>
+</header>
+
+<!-- ═══ GLOBAL NAV ═══ -->
+<nav class="g-nav">
+  <div class="g-nav-in">
+    <a class="g-brand" href="index.html">
+      <div class="g-brand-icon">☀️</div>
+      <span class="g-brand-name">ECODRY TECH</span>
+    </a>
+    <div class="g-links">
+      <a href="index.html">🏠 الرئيسية</a>
+      <a href="benchmark-section.html" class="g-pill amber-p">📊 Benchmark</a>
+      <div class="g-sep"></div>
+      <a href="solar_dryer_guide.html" class="active">⚙️ Components Guide</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav id="nav">
+  <div class="tab on" onclick="show('overview', this)">🌞 نظرة عامة</div>
+  <div class="tab" onclick="show('components', this)">⚙️ المكوّنات</div>
+  <div class="tab" onclick="show('connections', this)">🔌 التوصيلات</div>
+  <div class="tab" onclick="show('logic', this)">🧠 منطق التحكم</div>
+  <div class="tab" onclick="show('code', this)">💻 شرح الكود</div>
+  <div class="tab" onclick="show('protection', this)">🛡️ الحماية الكهربائية</div>
+  <div class="tab" onclick="show('testing', this)">🧪 مراحل الاختبار</div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 1: OVERVIEW
+═══════════════════════════════════════════════════ -->
+<div id="pane-overview" class="pane on">
+  <div class="sec-title">🌞 ما هذا الجهاز؟</div>
+  <div class="sec-sub">مجفف فواكه وخضروات يعمل بالطاقة الشمسية، تتحكم في مراوحه دائرة ذكية بناءً على الحرارة والرطوبة — ويمكن إدارته من هاتفك.</div>
+
+  <div class="g3" style="margin-bottom:20px">
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:10px">🌡️</div>
+      <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">يراقب بنفسه</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">حساسَان يقيسان الحرارة والرطوبة داخل المجفف وفي المجمع الشمسي باستمرار.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:10px">💨</div>
+      <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">يتحكم تلقائياً</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">بناءً على الحرارة والرطوبة، يشغّل ثلاث مراوح أو يوقفها بشكل تلقائي دون تدخل بشري.</div>
+    </div>
+    <div class="card">
+      <div style="font-size:32px;margin-bottom:10px">📱</div>
+      <div style="font-size:15px;font-weight:800;color:#fff;margin-bottom:6px">يُدار عن بُعد</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7">ينشئ شبكة WiFi خاصة. افتح المتصفح واتصل بالجهاز لمراقبته والتحكم فيه من قرب.</div>
+    </div>
+  </div>
+
+  <!-- SYSTEM DIAGRAM SVG -->
+  <div class="sys-diagram">
+    <svg viewBox="0 0 860 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;max-height:420px">
+      <defs>
+        <marker id="ar" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#f59e0b" opacity=".8"/>
+        </marker>
+        <marker id="ar-g" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#34d399" opacity=".8"/>
+        </marker>
+        <marker id="ar-c" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#22d3ee" opacity=".8"/>
+        </marker>
+        <filter id="glow-a">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+          <feComposite in="SourceGraphic" in2="b" operator="over"/>
+        </filter>
+        <style>
+          @keyframes dash{to{stroke-dashoffset:-20}}
+          @keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
+          .flow-amber{animation:dash 1.2s linear infinite}
+          .flow-green{animation:dash 1.5s linear infinite}
+          .flow-cyan{animation:dash 1.8s linear infinite}
+          .pulse{animation:pulse 2s ease-in-out infinite}
+        </style>
+      </defs>
+      <rect width="860" height="420" fill="#0d0b07"/>
+
+      <!-- SUN -->
+      <circle cx="60" cy="60" r="28" fill="none" stroke="#f59e0b" stroke-width="1.5" opacity=".4" class="pulse"/>
+      <circle cx="60" cy="60" r="20" fill="rgba(245,158,11,.15)" stroke="#f59e0b" stroke-width="2"/>
+      <text x="60" y="66" text-anchor="middle" font-size="18">☀️</text>
+      <text x="60" y="102" text-anchor="middle" fill="#7c6030" font-size="10" font-weight="600">طاقة شمسية</text>
+
+      <!-- SOLAR PANEL -->
+      <rect x="120" y="40" width="80" height="42" rx="6" fill="rgba(245,158,11,.08)" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="160" y="58" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700">لوح شمسي</text>
+      <text x="160" y="73" text-anchor="middle" fill="#7c6030" font-size="9">18V / 20W</text>
+
+      <!-- CHARGE CONTROLLER -->
+      <rect x="230" y="40" width="90" height="42" rx="6" fill="rgba(245,158,11,.08)" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="275" y="58" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700">منظّم شحن</text>
+      <text x="275" y="73" text-anchor="middle" fill="#7c6030" font-size="9">MPPT / PWM</text>
+
+      <!-- BATTERY -->
+      <rect x="350" y="36" width="80" height="50" rx="6" fill="rgba(52,211,153,.08)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="390" y="57" text-anchor="middle" fill="#34d399" font-size="11" font-weight="700">🔋 بطارية</text>
+      <text x="390" y="72" text-anchor="middle" fill="#2a6a50" font-size="9">12V Lead-Acid</text>
+
+      <!-- PROTECTION BOX -->
+      <rect x="280" y="120" width="220" height="46" rx="8" fill="rgba(248,113,113,.07)" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="390" y="140" text-anchor="middle" fill="#f87171" font-size="11" font-weight="700">🛡️ طبقة الحماية</text>
+      <text x="390" y="155" text-anchor="middle" fill="#5c2020" font-size="9">Fuse · P-MOSFET · TVS · 470µF</text>
+
+      <!-- VOLTAGE CONVERTERS -->
+      <rect x="310" y="200" width="160" height="44" rx="8" fill="rgba(167,139,250,.07)" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="390" y="218" text-anchor="middle" fill="#a78bfa" font-size="11" font-weight="700">محوّلات الجهد</text>
+      <text x="390" y="233" text-anchor="middle" fill="#4a3070" font-size="9">12V → 5V → 3.3V</text>
+
+      <!-- ESP32 -->
+      <rect x="320" y="278" width="140" height="54" rx="10" fill="rgba(34,211,238,.08)" stroke="#22d3ee" stroke-width="2"/>
+      <text x="390" y="300" text-anchor="middle" fill="#22d3ee" font-size="13" font-weight="700">ESP32</text>
+      <text x="390" y="316" text-anchor="middle" fill="#0e4f5e" font-size="9">الدماغ / المتحكم الرئيسي</text>
+      <text x="390" y="326" text-anchor="middle" fill="#0e4f5e" font-size="8">WiFi · GPIO · Web Server</text>
+
+      <!-- WIFI ICON -->
+      <text x="475" y="300" fill="#22d3ee" font-size="18" opacity=".5">📡</text>
+      <text x="490" y="296" fill="#0e4f5e" font-size="8">192.168.4.1</text>
+
+      <!-- FANS -->
+      <rect x="60" y="290" width="90" height="42" rx="8" fill="rgba(52,211,153,.07)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="105" y="308" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">💨 مروحة تجفيف</text>
+      <text x="105" y="322" text-anchor="middle" fill="#2a6a50" font-size="8.5">GPIO 27 → MOSFET</text>
+
+      <rect x="60" y="345" width="90" height="42" rx="8" fill="rgba(52,211,153,.07)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="105" y="363" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">💨 مروحة عادم</text>
+      <text x="105" y="377" text-anchor="middle" fill="#2a6a50" font-size="8.5">GPIO 13 → MOSFET</text>
+
+      <rect x="165" y="318" width="90" height="42" rx="8" fill="rgba(52,211,153,.07)" stroke="#34d399" stroke-width="1.5"/>
+      <text x="210" y="336" text-anchor="middle" fill="#34d399" font-size="10" font-weight="700">💨 مروحة مجمع</text>
+      <text x="210" y="350" text-anchor="middle" fill="#2a6a50" font-size="8.5">GPIO 14 → MOSFET</text>
+
+      <!-- SENSORS -->
+      <rect x="560" y="278" width="110" height="40" rx="8" fill="rgba(245,158,11,.07)" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="615" y="296" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700">🌡️ DHT22</text>
+      <text x="615" y="309" text-anchor="middle" fill="#7c4f06" font-size="8.5">حرارة + رطوبة — GPIO16</text>
+
+      <rect x="560" y="328" width="110" height="40" rx="8" fill="rgba(245,158,11,.07)" stroke="#f59e0b" stroke-width="1.5"/>
+      <text x="615" y="346" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700">🌡️ DS18B20</text>
+      <text x="615" y="359" text-anchor="middle" fill="#7c4f06" font-size="8.5">حرارة المجمع — GPIO4</text>
+
+      <!-- BUTTON -->
+      <rect x="560" y="378" width="110" height="32" rx="8" fill="rgba(167,139,250,.07)" stroke="#a78bfa" stroke-width="1.5"/>
+      <text x="615" y="399" text-anchor="middle" fill="#a78bfa" font-size="10" font-weight="700">🔘 زر تبديل وضع — GPIO26</text>
+
+      <!-- ARROWS: POWER FLOW (amber) -->
+      <line x1="88" y1="61" x2="120" y2="61" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" class="flow-amber" marker-end="url(#ar)"/>
+      <line x1="200" y1="61" x2="230" y2="61" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3" class="flow-amber" marker-end="url(#ar)"/>
+      <line x1="320" y1="61" x2="350" y2="61" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,3" class="flow-green" marker-end="url(#ar-g)"/>
+      <line x1="390" y1="86" x2="390" y2="119" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,3" class="flow-green" marker-end="url(#ar-g)"/>
+      <line x1="390" y1="167" x2="390" y2="199" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5,3" class="flow-cyan" marker-end="url(#ar-c)"/>
+      <line x1="390" y1="244" x2="390" y2="277" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5,3" class="flow-cyan" marker-end="url(#ar-c)"/>
+
+      <!-- ARROWS: CONTROL (cyan) to fans -->
+      <line x1="330" y1="310" x2="152" y2="310" stroke="#34d399" stroke-width="1.3" stroke-dasharray="4,3" class="flow-green" marker-end="url(#ar-g)"/>
+      <line x1="330" y1="318" x2="260" y2="339" stroke="#34d399" stroke-width="1.3" stroke-dasharray="4,3" class="flow-green" marker-end="url(#ar-g)"/>
+      <line x1="322" y1="325" x2="152" y2="360" stroke="#34d399" stroke-width="1.3" stroke-dasharray="4,3" class="flow-green" marker-end="url(#ar-g)"/>
+
+      <!-- ARROWS: SENSORS to ESP32 -->
+      <line x1="560" y1="298" x2="462" y2="305" stroke="#f59e0b" stroke-width="1.3" stroke-dasharray="4,3" class="flow-amber" marker-end="url(#ar)"/>
+      <line x1="560" y1="348" x2="462" y2="318" stroke="#f59e0b" stroke-width="1.3" stroke-dasharray="4,3" class="flow-amber" marker-end="url(#ar)"/>
+
+      <!-- LEGEND -->
+      <rect x="680" y="36" width="160" height="110" rx="6" fill="rgba(0,0,0,.5)" stroke="var(--border)"/>
+      <text x="694" y="52" fill="#4a3818" font-size="9" font-weight="700">LEGEND</text>
+      <line x1="694" y1="64" x2="718" y2="64" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="724" y="68" fill="#7c6030" font-size="9">طاقة كهربائية</text>
+      <line x1="694" y1="82" x2="718" y2="82" stroke="#34d399" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="724" y="86" fill="#2a6a50" font-size="9">إشارة تحكم</text>
+      <line x1="694" y1="100" x2="718" y2="100" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="724" y="104" fill="#0e4f5e" font-size="9">منطق / بيانات</text>
+      <line x1="694" y1="118" x2="718" y2="118" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="724" y="122" fill="#4a3070" font-size="9">تحويل طاقة</text>
+      <line x1="694" y1="136" x2="718" y2="136" stroke="#f87171" stroke-width="1.5" stroke-dasharray="5,3"/>
+      <text x="724" y="140" fill="#5c2020" font-size="9">دائرة حماية</text>
+    </svg>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="sec-title" style="font-size:18px">🔁 كيف يعمل النظام خطوة بخطوة</div>
+  <div class="sec-sub" style="margin-bottom:18px">من لحظة تشغيله حتى تجفيف الفاكهة</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--amber)"></div>دورة التشغيل العادية</div>
+      <div class="flow-step">
+        <div><div class="flow-dot" style="background:var(--amber)"></div><div class="flow-line"></div></div>
+        <div class="flow-text"><strong>اللوح الشمسي</strong> يولّد 18V من ضوء الشمس، يمر عبر منظّم الشحن ليشحن البطارية الـ 12V.</div>
+      </div>
+      <div class="flow-step">
+        <div><div class="flow-dot" style="background:var(--amber)"></div><div class="flow-line"></div></div>
+        <div class="flow-text"><strong>البطارية</strong> تُغذّي الدائرة بـ 12V. المحوّلات تخفّض الجهد إلى 5V ثم 3.3V لتشغيل الـ ESP32.</div>
+      </div>
+      <div class="flow-step">
+        <div><div class="flow-dot" style="background:var(--cyan)"></div><div class="flow-line"></div></div>
+        <div class="flow-text"><strong>الـ ESP32</strong> يستيقظ، يُحمّل إعداداته المحفوظة، وينشئ شبكة WiFi خاصة.</div>
+      </div>
+      <div class="flow-step">
+        <div><div class="flow-dot" style="background:var(--cyan)"></div><div class="flow-line"></div></div>
+        <div class="flow-text"><strong>الحساسات</strong> تُرسل قراءات الحرارة والرطوبة كل ثانيتين للـ ESP32.</div>
+      </div>
+      <div class="flow-step">
+        <div><div class="flow-dot" style="background:var(--green)"></div><div class="flow-line"></div></div>
+        <div class="flow-text"><strong>المتحكم</strong> يقرر: هل أُشغّل مروحة التجفيف؟ العادم؟ مروحة المجمع؟</div>
+      </div>
+      <div class="flow-step">
+        <div><div class="flow-dot" style="background:var(--green)"></div></div>
+        <div class="flow-text"><strong>MOSFET</strong> (مفتاح إلكتروني) يُشغّل المروحة المطلوبة بتيار 12V مباشرة من البطارية.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--green)"></div>وضعا التشغيل</div>
+      <div class="info-box">
+        <div class="box-title" style="color:var(--green)">🤖 الوضع التلقائي (AUTO)</div>
+        <div class="box-body">الـ ESP32 يقرر وحده متى يشغّل أي مروحة بناءً على قراءات الحساسات. أنت تضع <strong>العتبات</strong> (حرارة التشغيل، رطوبة الإيقاف، إلخ) وهو يتبعها.</div>
+      </div>
+      <div class="info-box" style="background:rgba(167,139,250,.05);border-color:rgba(167,139,250,.2);margin-top:10px">
+        <div class="box-title" style="color:var(--purple)">🖐 الوضع اليدوي (MANUAL)</div>
+        <div class="box-body">أنت تتحكم مباشرة في كل مروحة عبر واجهة الويب أو زر التبديل. مفيد للصيانة أو التجربة.</div>
+      </div>
+      <div class="warn-box" style="margin-top:10px">
+        <div class="box-title" style="color:var(--amber)">💾 وضعَي العتبات (Profile 1 & 2)</div>
+        <div class="box-body">يمكن حفظ مجموعتين مختلفتين من الإعدادات. مثلاً: Profile 1 للتجفيف السريع بحرارة عالية، Profile 2 للتجفيف اللطيف.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 2: COMPONENTS
+═══════════════════════════════════════════════════ -->
+<div id="pane-components" class="pane">
+  <div class="sec-title">⚙️ المكوّنات — ما هو كل قطعة وماذا تفعل؟</div>
+  <div class="sec-sub">شرح بسيط لكل مكوّن في النظام مع مقارنة بأشياء نعرفها في الحياة اليومية.</div>
+
+  <div class="g2">
+
+    <div class="comp-card cyan">
+      <div class="comp-icon">🧠</div>
+      <div>
+        <div class="comp-name">ESP32 — المتحكم الرئيسي</div>
+        <div class="comp-model">ESP32 DevKitC</div>
+      </div>
+      <div class="comp-desc">حاسوب صغير جداً (أصغر من راحة يدك) يعمل بـ 3.3 فولت. يقرأ الحساسات، يتخذ القرارات، يتحكم في المراوح، ويُشغّل موقع ويب صغير عبر WiFi.</div>
+      <div class="comp-analogy">المدير المسؤول عن كل شيء في المصنع. يسمع التقارير (الحساسات)، يُصدر أوامر (للمراوح)، ويستجيب لطلبات الزوار (واجهة الويب).</div>
+      <div class="comp-conn">GPIO16 (DHT22) · GPIO4 (DS18B20) · GPIO26 (Button)
+GPIO27/13/14 → 3× MOSFET gates
+Power: 3.3V from AMS1117</div>
+    </div>
+
+    <div class="comp-card amber">
+      <div class="comp-icon">🌡️</div>
+      <div>
+        <div class="comp-name">DHT22 — حساس الحرارة والرطوبة</div>
+        <div class="comp-model">DHT22 / AM2302</div>
+      </div>
+      <div class="comp-desc">يقيس درجة الحرارة (من −40 إلى 80°م) والرطوبة النسبية معاً في قياس واحد كل ثانيتين. موضوع <strong>داخل غرفة التجفيف</strong>.</div>
+      <div class="comp-analogy">مثل الترمومتر والهيدرومتر معاً في جهاز واحد — تخبر الـ ESP32 بدرجة حرارة الهواء ومدى رطوبته.</div>
+      <div class="comp-conn">GPIO16 ← DATA pin
+3.3V (VCC) · GND · 4.7kΩ pull-up to 3.3V</div>
+    </div>
+
+    <div class="comp-card amber">
+      <div class="comp-icon">🌡️</div>
+      <div>
+        <div class="comp-name">DS18B20 — حساس حرارة المجمع</div>
+        <div class="comp-model">DS18B20</div>
+      </div>
+      <div class="comp-desc">حساس حرارة دقيق (دقة ±0.5°م) يُقاس بنظام رقمي يُسمى OneWire. موضوع <strong>في المجمع الشمسي</strong> لمعرفة حرارة الهواء الساخن القادم.</div>
+      <div class="comp-analogy">مثل مقياس حرارة في فوهة الفرن — يُخبرنا كم الهواء الساخن المتاح من الشمس لنقرر هل نستمر في ضخّه للمجفف.</div>
+      <div class="comp-conn">GPIO4 ← DQ pin
+3.3V (VCC) · GND · 4.7kΩ pull-up to 3.3V</div>
+    </div>
+
+    <div class="comp-card purple">
+      <div class="comp-icon">⚡</div>
+      <div>
+        <div class="comp-name">IRLZ44N — مفتاح إلكتروني للمراوح (×3)</div>
+        <div class="comp-model">IRLZ44N N-MOSFET</div>
+      </div>
+      <div class="comp-desc">ترانزستور قوي يعمل كـ<strong>مفتاح كهربائي</strong>. يستقبل إشارة صغيرة (3.3V) من الـ ESP32 ليمرّر تيار كبير (12V) للمروحة. IRLZ44N متوافق مع منطق 3.3V.</div>
+      <div class="comp-analogy">مثل مفتاح الإضاءة: ضغطة صغيرة (إشارة ESP32) تُشغّل الضوء الكبير (المروحة). الـ ESP32 لا يحتاج لتوصيل التيار الكبير مباشرة.</div>
+      <div class="comp-conn">Gate ← 100Ω ← GPIO 27 / 13 / 14
+Drain → Motor(−) | Source → GND
+10kΩ pull-down on Gate · 1N5819 Flyback</div>
+    </div>
+
+    <div class="comp-card green">
+      <div class="comp-icon">💨</div>
+      <div>
+        <div class="comp-name">مروحة التجفيف (Dryer Fan)</div>
+        <div class="comp-model">DC Fan 12V / 0.5A</div>
+      </div>
+      <div class="comp-desc">تسحب هواءً داخل غرفة التجفيف أو تدوّره. تعمل عندما تصل حرارة الغرفة لحدٍّ معيّن أو يأمرها المستخدم يدوياً. <strong>GPIO 27</strong>.</div>
+      <div class="comp-analogy">مثل مروحة التبريد في الكمبيوتر — تُبقي الهواء متحرّكاً لضمان توزيع الحرارة وتسريع التجفيف.</div>
+      <div class="comp-conn">12V (+) → Motor → IRLZ44N (Drain)
+يتحكم بها: GPIO27 عبر MOSFET</div>
+    </div>
+
+    <div class="comp-card green">
+      <div class="comp-icon">💨</div>
+      <div>
+        <div class="comp-name">مروحة العادم (Exhaust Fan)</div>
+        <div class="comp-model">DC Fan 12V / 0.5A</div>
+      </div>
+      <div class="comp-desc">تُخرج الهواء الرطب من المجفف إلى الخارج. تعمل بناءً على <strong>الحرارة أو الرطوبة</strong>. بمجرد تشغيلها، تُشغَّل معها مروحة التجفيف تلقائياً. <strong>GPIO 13</strong>.</div>
+      <div class="comp-analogy">مثل مراوح الحمّام — تسحب الهواء الرطب والحار للخارج لإفساح المجال لهواء جاف جديد.</div>
+      <div class="comp-conn">12V (+) → Motor → IRLZ44N (Drain)
+يتحكم بها: GPIO13 عبر MOSFET</div>
+    </div>
+
+    <div class="comp-card green">
+      <div class="comp-icon">💨</div>
+      <div>
+        <div class="comp-name">مروحة المجمع الشمسي (Collector Fan)</div>
+        <div class="comp-model">DC Fan 12V / 0.5A</div>
+      </div>
+      <div class="comp-desc">تضخّ الهواء الساخن من المجمع الشمسي إلى غرفة التجفيف. تعمل طالما حرارة المجمع <strong>أقل من</strong> العتبة المحددة (المنطق عكسي: تعمل للضخ وتقف عند الاكتفاء). <strong>GPIO 14</strong>.</div>
+      <div class="comp-analogy">مثل ضخّة المياه في نظام التدفئة — تنقل الحرارة من مكان توليدها (المجمع) إلى مكان الاستخدام (المجفف).</div>
+      <div class="comp-conn">12V (+) → Motor → IRLZ44N (Drain)
+يتحكم بها: GPIO14 عبر MOSFET</div>
+    </div>
+
+    <div class="comp-card purple">
+      <div class="comp-icon">🔘</div>
+      <div>
+        <div class="comp-name">زر تبديل الوضع (Profile Button)</div>
+        <div class="comp-model">Tactile Push Button</div>
+      </div>
+      <div class="comp-desc">زر فيزيائي على الجهاز يبدّل بين الوضع الأول والثاني (Profile 1 / Profile 2) دون الحاجة لفتح التطبيق. يعمل بنظام <strong>المقاطعة</strong> (Interrupt) ليستجيب فوراً.</div>
+      <div class="comp-analogy">مثل زر الراديو الذي يبدّل بين محطتين محفوظتين — ضغطة واحدة وتنتقل للوضع الآخر.</div>
+      <div class="comp-conn">GPIO26 ← Button → GND
+pinMode: INPUT (no pull-up)
+Interrupt: RISING edge, debounce 250ms</div>
+    </div>
+
+    <div class="comp-card purple">
+      <div class="comp-icon">🔽</div>
+      <div>
+        <div class="comp-name">MP1584EN — محوّل الجهد الخافض (12V→5V)</div>
+        <div class="comp-model">MP1584EN Buck Converter</div>
+      </div>
+      <div class="comp-desc">يخفّض جهد البطارية من 12 فولت إلى 5 فولت بكفاءة عالية (~92%) مع الحدّ الأدنى من الحرارة المبدّدة. المرحلة الأولى من تحويل الجهد.</div>
+      <div class="comp-analogy">مثل محوّل السيارة (car charger) الذي يأخذ 12V من بطارية السيارة ويعطي 5V لشحن الهاتف — نفس المبدأ تماماً.</div>
+      <div class="comp-conn">Input: 12V (from battery via protection)
+Output: 5V regulated
+→ AMS1117-3.3 input</div>
+    </div>
+
+    <div class="comp-card purple">
+      <div class="comp-icon">🔽</div>
+      <div>
+        <div class="comp-name">AMS1117-3.3 — منظّم الجهد (5V→3.3V)</div>
+        <div class="comp-model">AMS1117-3.3 LDO</div>
+      </div>
+      <div class="comp-desc">يُنظّم جهد 5V إلى 3.3V الثابت الذي يحتاجه الـ ESP32 والحساسات. مع مكثفات فصل لضمان نظافة الجهد من الضوضاء.</div>
+      <div class="comp-analogy">مثل موزّع كهرباء منظّم في مختبر — يعطي ضبط دقيق لقيمة الجهد ويحافظ عليها ثابتة مهما تغيّر الحمل.</div>
+      <div class="comp-conn">Input: 5V (from MP1584EN)
+Output: 3.3V + (100µF || 10µF || 100nF)
+→ ESP32 3V3 pin · DHT22 · DS18B20</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 3: CONNECTIONS
+═══════════════════════════════════════════════════ -->
+<div id="pane-connections" class="pane">
+  <div class="sec-title">🔌 التوصيلات الكاملة</div>
+  <div class="sec-sub">جدول مرجعي لكل توصيل في النظام مع ملاحظات مهمة.</div>
+
+  <div class="g2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--green)"></div>توصيلات أطراف الإخراج (GPIO → MOSFET → مراوح)</div>
+      <table>
+        <tr><th>GPIO</th><th>الوظيفة</th><th>التوصيل</th><th>الحماية المطلوبة</th></tr>
+        <tr><td class="td-mono">27</td><td>مروحة التجفيف</td><td>100Ω → Gate IRLZ44N</td><td class="td-green">10kΩ Pull-Down + 1N5819</td></tr>
+        <tr><td class="td-mono">13</td><td>مروحة العادم</td><td>100Ω → Gate IRLZ44N</td><td class="td-green">10kΩ Pull-Down + 1N5819</td></tr>
+        <tr><td class="td-mono">14</td><td>مروحة المجمع</td><td>100Ω → Gate IRLZ44N</td><td class="td-green">10kΩ Pull-Down + 1N5819</td></tr>
+      </table>
+      <div class="info-box" style="margin-top:12px">
+        <div class="box-title" style="color:var(--cyan)">ℹ️ لماذا 100Ω على الـ Gate؟</div>
+        <div class="box-body">مقاومة Gate الصغيرة تحمي GPIO من تيار الشحن العالي لمكثف الـ Gate. بدونها قد يتلف GPIO عند التشغيل السريع المتكرر.</div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--amber)"></div>توصيلات أطراف الإدخال (الحساسات)</div>
+      <table>
+        <tr><th>GPIO</th><th>الحساس</th><th>الطرف</th><th>الملاحظة</th></tr>
+        <tr><td class="td-mono">16</td><td>DHT22</td><td>DATA pin</td><td class="td-amber">4.7kΩ pull-up → 3.3V إجباري!</td></tr>
+        <tr><td class="td-mono">4</td><td>DS18B20</td><td>DQ pin</td><td class="td-amber">4.7kΩ pull-up → 3.3V إجباري!</td></tr>
+        <tr><td class="td-mono">26</td><td>زر تبديل</td><td>أحد طرفي الزر</td><td class="td-amber">الطرف الآخر → GND</td></tr>
+      </table>
+      <div class="warn-box" style="margin-top:12px">
+        <div class="box-title" style="color:var(--amber)">⚠️ لماذا مقاومة pull-up للحساسات؟</div>
+        <div class="box-body">الحساسات تتواصل على خط واحد (One-Wire, Single-Wire). مقاومة pull-up ترفع الخط لـ 3.3V في الحالة الافتراضية وتتيح للحساس "سحبه لأسفل" للإشارة. <strong>بدونها: الحساس لا يعمل.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title"><div class="dot" style="background:var(--purple)"></div>سلسلة تحويل الجهد الكاملة</div>
+    <table>
+      <tr><th>المرحلة</th><th>المدخل</th><th>المخرج</th><th>المكوّن</th><th>الكفاءة</th><th>لمن؟</th></tr>
+      <tr><td>البطارية</td><td>شمس/شبكة</td><td class="td-amber">12V</td><td>Lead-Acid Battery</td><td class="td-green">—</td><td>المراوح مباشرة عبر MOSFET</td></tr>
+      <tr><td>مرحلة 1 - خافض</td><td>12V</td><td class="td-amber">5V</td><td class="td-mono">MP1584EN</td><td class="td-green">~92%</td><td>مدخل AMS1117</td></tr>
+      <tr><td>مرحلة 2 - LDO</td><td>5V</td><td class="td-green">3.3V</td><td class="td-mono">AMS1117-3.3</td><td class="td-amber">66%</td><td>ESP32 + حساسات</td></tr>
+    </table>
+    <div class="info-box" style="margin-top:12px">
+      <div class="box-title" style="color:var(--cyan)">💡 لماذا مرحلتين وليس مباشرة 12V→3.3V؟</div>
+      <div class="box-body">LDO مباشر من 12V→3.3V يُبدّد الفرق حرارةً: (12−3.3) × 0.25A = <strong>2.2 واط حرارة مستمرة!</strong> هذا يُسخّن اللوحة ويُقصّر عمر المكوّنات. المرحلتان أكثر أماناً وكفاءة بكثير.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title"><div class="dot" style="background:var(--cyan)"></div>⚠️ قواعد GPIO المهمة على ESP32</div>
+    <table>
+      <tr><th>الأطراف</th><th>الحالة</th><th>التفسير</th></tr>
+      <tr><td class="td-mono">GPIO 6–11</td><td class="td-red">❌ محجوز</td><td>يستخدمها الـ Flash الداخلي — استخدامها يُعطّل البرنامج</td></tr>
+      <tr><td class="td-mono">GPIO 0, 2, 12, 15</td><td class="td-amber">⚠️ حذر</td><td>Boot Strapping — حالتها عند التشغيل تؤثر على وضع الإقلاع</td></tr>
+      <tr><td class="td-mono">GPIO 34–39</td><td class="td-amber">↓ إدخال فقط</td><td>لا يمكن استخدامها للإخراج — للقراءة فقط</td></tr>
+      <tr><td class="td-mono">GPIO 32, 33, 34, 35</td><td class="td-green">✅ متاح</td><td>أطراف ADC1 جيدة — مقترحة لحساسات أو قياسات مستقبلية</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot" style="background:var(--red)"></div>🌟 التأريض النجمي — Star Ground</div>
+    <div class="info-box">
+      <div class="box-title" style="color:var(--green)">ما هو؟</div>
+      <div class="box-body">جميع أسلاك GND في الدائرة <strong>تعود لنقطة واحدة</strong> وهي الطرف السالب للبطارية. بدلاً من توصيل كل GND بالذي يليه (سلسلة)، كل خط يرجع مباشرة للمصدر.</div>
+    </div>
+    <div class="warn-box">
+      <div class="box-title" style="color:var(--amber)">لماذا مهم جداً؟</div>
+      <div class="box-body">التيار الكبير للمروحة (500mA متقطع) يمر في نفس سلك GND مع إشارة الحساس (ميكروأمبير). مقاومة السلك تخلق <strong>فرق جهد = ضوضاء = قراءات خاطئة وأخطاء WiFi</strong>. التأريض النجمي يفصل هذه التيارات تماماً.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 4: CONTROL LOGIC
+═══════════════════════════════════════════════════ -->
+<div id="pane-logic" class="pane">
+  <div class="sec-title">🧠 منطق التحكم التلقائي</div>
+  <div class="sec-sub">كيف يفكر الـ ESP32 ويتخذ قراراته لتشغيل المراوح؟ شرح مبسّط بالمنطق والمخطط.</div>
+
+  <div class="g2" style="margin-bottom:20px">
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--amber)"></div>قرار مروحة التجفيف</div>
+      <div style="font-size:13px;line-height:1.85;color:var(--text2)">
+        <div style="margin-bottom:10px">المروحة <strong>تعمل</strong> إذا تحقّق أيٌّ من الشروط التالية:</div>
+        <div class="flow-step" style="margin-bottom:8px">
+          <div><div class="flow-dot" style="background:var(--red)"></div></div>
+          <div class="flow-text">الحرارة ≥ <strong>75°م</strong> (حد الإسراف الحراري — طوارئ!</div>
+        </div>
+        <div class="flow-step" style="margin-bottom:8px">
+          <div><div class="flow-dot" style="background:var(--amber)"></div></div>
+          <div class="flow-text">الحرارة ≥ <strong>حد تشغيل المروحة</strong> (مثلاً: 60°م في Profile 1)</div>
+        </div>
+        <div class="flow-step" style="margin-bottom:8px">
+          <div><div class="flow-dot" style="background:var(--amber)"></div></div>
+          <div class="flow-text">فشل حساس DHT22 (مروحة <strong>دائماً</strong> تعمل عند فشل الحساس للأمان)</div>
+        </div>
+        <div class="flow-step">
+          <div><div class="flow-dot" style="background:var(--purple)"></div></div>
+          <div class="flow-text">مروحة العادم تعمل — <strong>قاعدة أمان:</strong> لا عادم بدون مروحة تجفيف</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><div class="dot" style="background:var(--cyan)"></div>قرار مروحة العادم</div>
+      <div style="font-size:13px;line-height:1.85;color:var(--text2)">
+        <div style="margin-bottom:10px">تعمل <strong>بشرطَين</strong> (أيٌّ منهما يكفي):</div>
+        <div class="info-box" style="margin:8px 0">
+          <div class="box-title" style="color:var(--amber)">🌡️ الشرط الأول: الحرارة</div>
+          <div class="box-body">إذا كانت الحرارة ≥ <strong>حد تشغيل العادم</strong> (مثلاً 62°م)</div>
+        </div>
+        <div class="info-box" style="background:rgba(34,211,238,.04);border-color:rgba(34,211,238,.18);margin:8px 0">
+          <div class="box-title" style="color:var(--cyan)">💧 الشرط الثاني: الرطوبة (مع Hysteresis)</div>
+          <div class="box-body">
+            تشتغل عند ≥ <strong>70% رطوبة</strong><br>
+            لا تطفئ إلا عند ≤ <strong>20% رطوبة</strong><br>
+            <small style="color:var(--text3)">هذا الفارق يمنع الاهتزاز (ON/OFF المتكرر)</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title"><div class="dot" style="background:var(--green)"></div>🔄 ما هو Hysteresis؟ — مفهوم مهم جداً</div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap">
+      <div style="flex:1;min-width:200px">
+        <div class="danger-box">
+          <div class="box-title" style="color:var(--red)">❌ بدون Hysteresis (سيئ)</div>
+          <div class="box-body">الرطوبة = 70% → العادم يعمل → الرطوبة تنزل لـ 69.9% → يطفئ → ترتفع لـ 70.1% → يعمل... هذا يحدث <strong>مئات المرات في الدقيقة</strong>! يُتلف المراوح والـ MOSFET.</div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px">
+        <div class="info-box">
+          <div class="box-title" style="color:var(--green)">✅ مع Hysteresis (صحيح)</div>
+          <div class="box-body">تشتغل عند <strong>70%</strong> ولا تطفئ إلا عند <strong>20%</strong>. الفارق الكبير (50%) يضمن أن العادم يعمل لفترة كافية ثم يتوقف لفترة كافية — لا ذبذبة.</div>
+        </div>
+      </div>
+    </div>
+    <div class="comp-analogy" style="margin-top:12px;display:block">ترموستات المنزل يشتغل عند 18°م ولا يطفئ إلا عند 22°م — فارق 4 درجات يمنع الإشعال والإطفاء المتكرر.</div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-title"><div class="dot" style="background:var(--green)"></div>قرار مروحة المجمع الشمسي</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.8">
+      <p>المنطق هنا <strong>معكوس</strong> عن المراوح الأخرى:</p>
+      <div class="info-box" style="margin:10px 0">
+        <div class="box-title" style="color:var(--green)">✅ تعمل عندما: حرارة المجمع &lt; الحد (مثلاً 65°م)</div>
+        <div class="box-body">لأن الهدف هو <strong>ضخّ الهواء الساخن للمجفف</strong>. إذا كان المجمع بارداً، ليس هناك فائدة من تشغيل المروحة.</div>
+      </div>
+      <div class="danger-box" style="margin:10px 0">
+        <div class="box-title" style="color:var(--red)">❌ تتوقف عندما: حساس DS18B20 معطل</div>
+        <div class="box-body">إذا أعطى الحساس قراءة خارج النطاق (-100° ~ 150°)، يُوقف المروحة للأمان بدل تشغيلها بشكل عشوائي.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot" style="background:var(--purple)"></div>مقارنة الوضعَين Profile 1 vs Profile 2</div>
+    <table>
+      <tr><th>الإعداد</th><th style="color:var(--amber)">Profile 1 — تجفيف سريع</th><th style="color:var(--cyan)">Profile 2 — تجفيف لطيف</th></tr>
+      <tr><td>تشغيل مروحة التجفيف</td><td class="td-amber">≥ 60°م</td><td class="td-cyan">≥ 50°م</td></tr>
+      <tr><td>تشغيل العادم (حرارة)</td><td class="td-amber">≥ 62°م</td><td class="td-cyan">≥ 52°م</td></tr>
+      <tr><td>تشغيل العادم (رطوبة)</td><td class="td-amber">≥ 70%</td><td class="td-cyan">≥ 80%</td></tr>
+      <tr><td>إيقاف العادم (رطوبة)</td><td class="td-amber">≤ 20%</td><td class="td-cyan">≤ 40%</td></tr>
+      <tr><td>إيقاف مروحة المجمع</td><td class="td-amber">65°م</td><td class="td-cyan">65°م</td></tr>
+    </table>
+    <div class="info-box" style="margin-top:12px">
+      <div class="box-title" style="color:var(--cyan)">متى تستخدم كل وضع؟</div>
+      <div class="box-body"><strong>Profile 1:</strong> للفواكه الصلبة كالمشمش والتين — تحتاج حرارة أعلى وتجفيف أسرع.<br><strong>Profile 2:</strong> للأعشاب والخضروات الرقيقة — تحتاج حرارة أقل لتجنب احتراق الأطراف أو فقدان الزيوت العطرية.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 5: CODE
+═══════════════════════════════════════════════════ -->
+<div id="pane-code" class="pane">
+  <div class="sec-title">💻 شرح الكود — دالة بدالة</div>
+  <div class="sec-sub">كل دالة مشروحة بلغة بسيطة مع تشبيه من الحياة اليومية وتعليقات مباشرة على الكود.</div>
+
+  <!-- FN 1: setup() -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">1</div>
+      <div>
+        <div class="fn-name">setup()</div>
+        <div class="fn-name-ar">دالة الإعداد — تُنفَّذ مرة واحدة عند تشغيل الجهاز</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">هذه الدالة هي <strong>روتين الصباح</strong> للجهاز. كل ما فيها ينفّذ مرة واحدة فقط عند تشغيل الكهرباء أو إعادة التشغيل. تُجهّز كل الأجزاء قبل بدء العمل الفعلي: تُضبط الأطراف، تُشغّل الحساسات، تُحمّل الإعدادات، تُنشأ شبكة WiFi، ويبدأ خادم الويب.</div>
+      <div class="fn-analogy">مثل موظف يدخل المكتب صباحاً: يفتح الكمبيوتر، يُعدّل الكرسي، يقرأ ملاحظات الأمس، يُشغّل البرامج المطلوبة — ثم فقط يبدأ في العمل الفعلي.</div>
+<pre><span class="kw">void</span> <span class="fn-c">setup</span>() {
+  Serial.<span class="fn-c">begin</span>(<span class="num">115200</span>); <span class="cm">// تشغيل المنفذ التسلسلي لرسائل التشخيص</span>
+
+  <span class="cm">// ⬛ ضبط زر التبديل وتفعيل نظام المقاطعة</span>
+  <span class="fn-c">pinMode</span>(PROFILE_BUTTON_PIN, INPUT);
+  <span class="fn-c">attachInterrupt</span>(<span class="fn-c">digitalPinToInterrupt</span>(PROFILE_BUTTON_PIN),
+                   onProfileButtonInterrupt, RISING);
+  <span class="cm">// RISING = يُكشف الزر عند الضغط (الإشارة ترتفع من LOW إلى HIGH)</span>
+
+  <span class="cm">// ⬛ تهيئة الأطراف التي تتحكم في المراوح — كل مروحة مطفأة في البداية</span>
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+    <span class="fn-c">pinMode</span>(relays[i].pin, OUTPUT);
+    <span class="fn-c">digitalWrite</span>(relays[i].pin, RELAY_OFF); <span class="cm">// LOW = MOSFET مغلق = مروحة مطفأة</span>
+  }
+
+  dht.<span class="fn-c">begin</span>();       <span class="cm">// تشغيل مكتبة DHT22</span>
+  ds18b20.<span class="fn-c">begin</span>(); <span class="cm">// تشغيل مكتبة DS18B20</span>
+
+  <span class="cm">// ⬛ تحميل الإعدادات المحفوظة (الوضع + العتبات + الـ Profile)</span>
+  preferences.<span class="fn-c">begin</span>(<span class="str">"dryerCtrl"</span>, <span class="kw">false</span>);
+  <span class="fn-c">loadConfig</span>(); <span class="cm">// قراءة ما تم حفظه سابقاً من ذاكرة NVS الداخلية</span>
+
+  <span class="cm">// ⬛ إنشاء شبكة WiFi خاصة (Access Point)</span>
+  WiFi.<span class="fn-c">softAP</span>(<span class="str">"Smart Hybrid solar dehydrator system"</span>, <span class="str">"aboSalah"</span>);
+  <span class="cm">// الجهاز ينشئ شبكة باسم معيّن وكلمة سر</span>
+  <span class="cm">// IP تلقائي: 192.168.4.1</span>
+
+  <span class="cm">// ⬛ تسجيل مسارات خادم الويب (الـ API)</span>
+  server.<span class="fn-c">on</span>(<span class="str">"/"</span>,              handleRoot);          <span class="cm">// الصفحة الرئيسية</span>
+  server.<span class="fn-c">on</span>(<span class="str">"/status"</span>,        handleStatus);        <span class="cm">// بيانات JSON</span>
+  server.<span class="fn-c">on</span>(<span class="str">"/setMode"</span>,       handleSetMode);       <span class="cm">// تغيير الوضع</span>
+  server.<span class="fn-c">on</span>(<span class="str">"/setProfile"</span>,    handleSetProfile);    <span class="cm">// تغيير الـ Profile</span>
+  server.<span class="fn-c">on</span>(<span class="str">"/setRelay"</span>,      handleSetRelay);      <span class="cm">// تحكم يدوي بمروحة</span>
+  server.<span class="fn-c">on</span>(<span class="str">"/setThresholds"</span>, handleSetThresholds); <span class="cm">// حفظ العتبات</span>
+  server.<span class="fn-c">begin</span>(); <span class="cm">// تشغيل الخادم — جاهز لاستقبال الطلبات</span>
+}</pre>
+    </div>
+  </div>
+
+  <!-- FN 2: loop() -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">2</div>
+      <div>
+        <div class="fn-name">loop()</div>
+        <div class="fn-name-ar">الحلقة الرئيسية — تعيد نفسها للأبد طالما الجهاز يعمل</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">هذه الدالة هي <strong>قلب الجهاز النابض</strong>. بعد انتهاء <code>setup()</code>، تبدأ <code>loop()</code> وتظل تُنفَّذ من أعلاها لأسفلها ثم تبدأ من جديد، إلى ما لا نهاية. كل مهمة أساسية تحدث داخلها.</div>
+      <div class="fn-analogy">مثل حارس أمن في نوبة عمل: يمشي الجولة، يتحقق من الكاميرات، يرد على الطلبات، ثم يعيد الكرّة — دون توقف.</div>
+<pre><span class="kw">void</span> <span class="fn-c">loop</span>() {
+
+  <span class="cm">// ① استقبال طلبات الويب من المتصفح (أولوية عالية)</span>
+  server.<span class="fn-c">handleClient</span>();
+
+  <span class="cm">// ② فحص ما إذا ضُغط زر التبديل (من نظام المقاطعة)</span>
+  <span class="kw">if</span> (profileToggleRequested) {
+    <span class="fn-c">noInterrupts</span>();           <span class="cm">// أوقف المقاطعات لحظياً لقراءة آمنة</span>
+    profileToggleRequested = <span class="kw">false</span>;
+    <span class="fn-c">interrupts</span>();             <span class="cm">// أعد تفعيل المقاطعات</span>
+    activeProfile = (activeProfile + <span class="num">1</span>) % <span class="num">2</span>; <span class="cm">// تبديل: 0→1 أو 1→0</span>
+    <span class="fn-c">persistConfig</span>(); <span class="cm">// احفظ التغيير فوراً في الذاكرة</span>
+  }
+
+  <span class="cm">// ③ قراءة الحساسات (كل 2 ثانية)</span>
+  <span class="fn-c">updateSensors</span>();
+
+  <span class="cm">// ④ تطبيق منطق التحكم (كل 0.5 ثانية)</span>
+  <span class="kw">if</span> (<span class="fn-c">millis</span>() - lastControlMs >= CONTROL_INTERVAL_MS) {
+    lastControlMs = <span class="fn-c">millis</span>();
+
+    <span class="kw">if</span> (controlMode == MODE_AUTO) {
+      <span class="fn-c">applyAutoControl</span>(); <span class="cm">// الوضع التلقائي: اتخاذ قرار بنفسه</span>
+    }
+    <span class="cm">// الوضع اليدوي: لا شيء — المراوح تظل على حالتها التي ضبطها المستخدم</span>
+
+    <span class="fn-c">flushRelayRequests</span>(); <span class="cm">// تطبيق القرارات على المراوح الفعلية</span>
+  }
+}</pre>
+    </div>
+  </div>
+
+  <!-- FN 3: updateSensors() -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">3</div>
+      <div>
+        <div class="fn-name">updateSensors()</div>
+        <div class="fn-name-ar">دالة قراءة الحساسات — تُحدّث كل 2 ثانية</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">تقرأ القيم من الحساسَين (DHT22 وDS18B20) وتحفظها في متغيرات عامة. تحتوي على فاصل زمني 2 ثانية لأن DHT22 لا يستطيع الاستجابة أسرع من ذلك.</div>
+      <div class="fn-analogy">مثل ممرضة تدور على الغرفة كل دقيقتين: تقيس درجة الحرارة، تُسجّل على الملف، وترحل — لا تجلس لتراقب باستمرار.</div>
+<pre><span class="kw">void</span> <span class="fn-c">updateSensors</span>() {
+  <span class="cm">// إذا لم يمضِ 2 ثانية من آخر قراءة → ارجع بدون قراءة</span>
+  <span class="kw">if</span> (<span class="fn-c">millis</span>() - lastSensorReadMs < SENSOR_INTERVAL_MS) <span class="kw">return</span>;
+  lastSensorReadMs = <span class="fn-c">millis</span>();
+
+  <span class="cm">// قراءة DHT22 (داخل المجفف)</span>
+  <span class="tp">float</span> h = dht.<span class="fn-c">readHumidity</span>();    <span class="cm">// % رطوبة نسبية</span>
+  <span class="tp">float</span> t = dht.<span class="fn-c">readTemperature</span>(); <span class="cm">// °م حرارة</span>
+
+  <span class="cm">// قراءة DS18B20 (في المجمع الشمسي)</span>
+  ds18b20.<span class="fn-c">requestTemperatures</span>();  <span class="cm">// أرسل أمر القياس</span>
+  <span class="tp">float</span> c = ds18b20.<span class="fn-c">getTempCByIndex</span>(<span class="num">0</span>); <span class="cm">// اقرأ النتيجة</span>
+
+  <span class="cm">// تخزين القيم في المتغيرات العامة</span>
+  dryerHumidity  = h; <span class="cm">// إذا فشلت القراءة → NAN (Not a Number)</span>
+  dryerTempC     = t; <span class="cm">// applyAutoControl() تتحقق من ذلك</span>
+  collectorTempC = c; <span class="cm">// DS18B20 يُعطي -127 عند الفشل</span>
+}</pre>
+      <div class="warn-box" style="margin-top:10px">
+        <div class="box-title" style="color:var(--amber)">⚠️ ماذا لو فشل الحساس؟</div>
+        <div class="box-body">DHT22: يُعطي <code>NAN</code> (قيمة غير عددية). الكود يتحقق بـ <code>isnan()</code> ويُشغّل مروحة التجفيف تلقائياً كإجراء أمان. DS18B20: يُعطي <code>-127°م</code>. الكود يتحقق من كون القيمة في النطاق المعقول (-100 إلى 150) قبل استخدامها.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FN 4: applyAutoControl() -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">4</div>
+      <div>
+        <div class="fn-name">applyAutoControl()</div>
+        <div class="fn-name-ar">التحكم التلقائي — أهم دالة في النظام</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">هنا يحدث <strong>كل التفكير</strong>. تأخذ قراءات الحساسات، تُقارنها بالعتبات المضبوطة، وتُقرر أي مروحة تُشغّل أو تُطفئ. تحتوي على منطق Hysteresis لمروحة العادم لمنع الذبذبة.</div>
+      <div class="fn-analogy">مثل مدير مصنع ذكي: يراقب شاشات القياس، يقيس بالمعايير المحددة، ويصدر قرارات: "شغّل خط أ، أوقف خط ج، اطّرد الهواء الرطب".</div>
+<pre><span class="kw">void</span> <span class="fn-c">applyAutoControl</span>() {
+  ThresholdProfile &p = profileSettings[activeProfile]; <span class="cm">// الوضع النشط</span>
+
+  <span class="cm">// التحقق من صحة قراءات الحساسات</span>
+  <span class="tp">bool</span> dhtValid = !<span class="fn-c">isnan</span>(dryerTempC) && !<span class="fn-c">isnan</span>(dryerHumidity);
+  <span class="tp">bool</span> dsValid  = collectorTempC > <span class="num">-100</span> && collectorTempC < <span class="num">150</span>;
+
+  <span class="tp">bool</span> dryerFan = <span class="kw">false</span>, dryerExhaust = <span class="kw">false</span>, collectorFan = <span class="kw">false</span>;
+
+  <span class="cm">// ════ قرار مروحة التجفيف والعادم ════</span>
+  <span class="kw">if</span> (!dhtValid) {
+    <span class="cm">// حساس معطل → شغّل مروحة التجفيف للأمان</span>
+    dryerFan = <span class="kw">true</span>;
+
+  } <span class="kw">else if</span> (dryerTempC >= OVERHEAT_TEMP_C) {
+    <span class="cm">// 🚨 حالة طوارئ: الحرارة فوق 75°م → شغّل الجميع!</span>
+    dryerFan = <span class="kw">true</span>;
+    dryerExhaust = <span class="kw">true</span>;
+
+  } <span class="kw">else</span> {
+    <span class="cm">// الحالة الطبيعية</span>
+    dryerFan = (dryerTempC >= p.dryerFanOnTemp); <span class="cm">// ≥60°م مثلاً</span>
+
+    <span class="cm">// العادم بالحرارة</span>
+    <span class="kw">if</span> (dryerTempC >= p.dryerExhaustOnTemp)
+      dryerExhaust = <span class="kw">true</span>; <span class="cm">// ≥62°م مثلاً</span>
+
+    <span class="cm">// العادم بالرطوبة — Hysteresis بـ static latch</span>
+    <span class="kw">static</span> <span class="tp">bool</span> humidityLatch = <span class="kw">false</span>; <span class="cm">// يتذكر حالته بين الاستدعاءات</span>
+    <span class="kw">if</span> (dryerHumidity >= p.dryerExhaustOnHumidity)  humidityLatch = <span class="kw">true</span>;  <span class="cm">// ≥70%</span>
+    <span class="kw">if</span> (dryerHumidity <= p.dryerExhaustOffHumidity) humidityLatch = <span class="kw">false</span>; <span class="cm">// ≤20%</span>
+    dryerExhaust = dryerExhaust || humidityLatch; <span class="cm">// أي من الشرطَين يكفي</span>
+  }
+
+  <span class="cm">// قاعدة أمان: لا عادم بدون مروحة تجفيف</span>
+  <span class="kw">if</span> (dryerExhaust) dryerFan = <span class="kw">true</span>;
+
+  <span class="cm">// ════ قرار مروحة المجمع الشمسي ════</span>
+  <span class="cm">// تعمل فقط إذا كان الحساس سليماً AND حرارة المجمع أقل من الحد</span>
+  collectorFan = dsValid && (collectorTempC < p.collectorFanOffTemp);
+
+  <span class="cm">// أرسل القرارات للطابور (لم تُطبَّق على المراوح بعد)</span>
+  <span class="fn-c">requestRelayState</span>(<span class="num">0</span>, dryerFan);
+  <span class="fn-c">requestRelayState</span>(<span class="num">1</span>, dryerExhaust);
+  <span class="fn-c">requestRelayState</span>(<span class="num">2</span>, collectorFan);
+}</pre>
+    </div>
+  </div>
+
+  <!-- FN 5: applyRelayWithProtection -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">5</div>
+      <div>
+        <div class="fn-name">applyRelayWithProtection()</div>
+        <div class="fn-name-ar">التبديل المحمي — يمنع تشغيل/إيقاف المراوح بسرعة خطرة</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">عند تلقّي طلب لتغيير حالة مروحة، هذه الدالة لا تنفّذ الأمر فوراً. بل تتحقق: هل مضت المدة الكافية منذ آخر تغيير؟ إذا لا → تُسجّل الطلب وتنتظر. إذا نعم → تُنفّذ الأمر وتُحدّث الوقت.</div>
+      <div class="fn-analogy">مثل قاطع دائرة (Circuit Breaker) في لوحة الكهرباء: له وقت تبريد ضروري بين التشغيلات. تضغطه بسرعة؟ يرفض — يحميك من الأذى.</div>
+<pre><span class="kw">void</span> <span class="fn-c">applyRelayWithProtection</span>(<span class="tp">int</span> idx, <span class="tp">bool</span> desiredState) {
+  RelayChannel &r = relays[idx];
+  <span class="tp">unsigned long</span> now = <span class="fn-c">millis</span>();
+
+  <span class="cm">// إذا الحالة لم تتغير → لا داعي لفعل شيء</span>
+  <span class="kw">if</span> (desiredState == r.appliedState) {
+    r.requestedState = desiredState;
+    <span class="kw">return</span>;
+  }
+
+  <span class="tp">unsigned long</span> elapsed = now - r.lastChangeMs;
+
+  <span class="cm">// لا تطفئ قبل مرور 5 ثوان على التشغيل (MIN_ON_TIME)</span>
+  <span class="kw">if</span> (r.appliedState && !desiredState && elapsed < MIN_ON_TIME_MS) {
+    r.requestedState = desiredState; <span class="cm">// احفظ الطلب للتنفيذ لاحقاً</span>
+    <span class="kw">return</span>;
+  }
+
+  <span class="cm">// لا تشغّل قبل مرور 5 ثوان على الإطفاء (MIN_OFF_TIME)</span>
+  <span class="kw">if</span> (!r.appliedState && desiredState && elapsed < MIN_OFF_TIME_MS) {
+    r.requestedState = desiredState; <span class="cm">// احفظ الطلب للتنفيذ لاحقاً</span>
+    <span class="kw">return</span>;
+  }
+
+  <span class="cm">// ✅ الوقت كافٍ → نفّذ التغيير الآن</span>
+  r.appliedState  = desiredState;
+  r.requestedState = desiredState;
+  r.lastChangeMs  = now; <span class="cm">// سجّل وقت هذا التغيير</span>
+  <span class="fn-c">digitalWrite</span>(r.pin, desiredState ? RELAY_ON : RELAY_OFF); <span class="cm">// المروحة!</span>
+}</pre>
+      <div class="info-box" style="margin-top:10px">
+        <div class="box-title" style="color:var(--green)">لماذا 5 ثوان؟</div>
+        <div class="box-body">التبديل السريع للمراوح يُسبّب: تيار بدء (inrush current) متكرر يُجهد البطارية، ضوضاء كهرومغناطيسية تشوّش الحساسات، وإجهاداً مبكراً للـ MOSFET والـ flyback diode. 5 ثوان كافية لاستقرار النظام بين التبديلات.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FN 6: persistConfig & loadConfig -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">6</div>
+      <div>
+        <div class="fn-name">persistConfig() &amp; loadConfig()</div>
+        <div class="fn-name-ar">حفظ وتحميل الإعدادات من الذاكرة الدائمة</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">تحفظ الإعدادات (الوضع، الـ Profile، قيم العتبات) في <strong>ذاكرة NVS</strong> داخل الـ ESP32. هذه الذاكرة تحتفظ بمحتوياتها حتى بعد انقطاع الكهرباء — مثل الـ EEPROM. عند التشغيل، <code>loadConfig()</code> تُعيد هذه القيم.</div>
+      <div class="fn-analogy">مثل حفظ الإعدادات في تطبيق هاتفي: حتى لو أغلقت التطبيق وفتحته من جديد، يجد نفسه في نفس الحالة التي تركته عليها.</div>
+<pre><span class="kw">void</span> <span class="fn-c">persistConfig</span>() {
+  preferences.<span class="fn-c">putInt</span>(<span class="str">"mode"</span>,    (<span class="tp">int</span>)controlMode); <span class="cm">// AUTO=1, MANUAL=0</span>
+  preferences.<span class="fn-c">putInt</span>(<span class="str">"profile"</span>, activeProfile);   <span class="cm">// 0 أو 1</span>
+
+  <span class="cm">// حفظ عتبات الوضعَين كاملةً</span>
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < <span class="num">2</span>; i++) {
+    String prefix = <span class="str">"p"</span> + String(i) + <span class="str">"_"</span>;
+    preferences.<span class="fn-c">putFloat</span>((prefix+<span class="str">"fOn"</span>).c_str(),  profileSettings[i].dryerFanOnTemp);
+    preferences.<span class="fn-c">putFloat</span>((prefix+<span class="str">"eOn"</span>).c_str(),  profileSettings[i].dryerExhaustOnTemp);
+    <span class="cm">// ... إلخ لبقية القيم</span>
+  }
+}
+
+<span class="kw">void</span> <span class="fn-c">loadConfig</span>() {
+  <span class="cm">// اقرأ من الذاكرة مع قيمة افتراضية إذا لم يكن هناك حفظ سابق</span>
+  controlMode  = (ControlMode)preferences.<span class="fn-c">getInt</span>(<span class="str">"mode"</span>,    MODE_MANUAL);
+  activeProfile = preferences.<span class="fn-c">getInt</span>(<span class="str">"profile"</span>, <span class="num">0</span>);
+  activeProfile = <span class="fn-c">constrain</span>(activeProfile, <span class="num">0</span>, <span class="num">1</span>); <span class="cm">// تأكد أنه 0 أو 1 فقط</span>
+
+  <span class="kw">for</span> (<span class="tp">int</span> i = <span class="num">0</span>; i < <span class="num">2</span>; i++) {
+    String prefix = <span class="str">"p"</span> + String(i) + <span class="str">"_"</span>;
+    profileSettings[i].dryerFanOnTemp =
+      preferences.<span class="fn-c">getFloat</span>((prefix+<span class="str">"fOn"</span>).c_str(), profileDefaults[i].dryerFanOnTemp);
+    <span class="cm">// الثاني: القيمة الافتراضية إذا لم يُوجد حفظ سابق</span>
+  }
+}</pre>
+    </div>
+  </div>
+
+  <!-- FN 7: onProfileButtonInterrupt -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">7</div>
+      <div>
+        <div class="fn-name">onProfileButtonInterrupt()</div>
+        <div class="fn-name-ar">معالج المقاطعة — يستجيب فوراً لضغط الزر</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">دالة خاصة تُنفَّذ <strong>فوراً</strong> عند ضغط الزر، بصرف النظر عما يفعله الـ ESP32. لا تنتظر دورة <code>loop()</code>. تحتوي على حماية من الارتداد (Debounce) لتجاهل الضغطات الزائفة السريعة. كلمة <code>IRAM_ATTR</code> تضع الكود في ذاكرة RAM أسرع للاستجابة الفورية.</div>
+      <div class="fn-analogy">مثل جرس الباب: مهما كنت مشغولاً في الطبخ أو النوم، حين يُقرع الجرس يتوقف عملك لحظياً ويستجيب الدماغ. هذا بالضبط ما تفعله المقاطعة.</div>
+<pre><span class="kw">void</span> IRAM_ATTR <span class="fn-c">onProfileButtonInterrupt</span>() {
+  <span class="cm">// IRAM_ATTR: الكود في RAM أسرع بدل الـ Flash العادي</span>
+  <span class="tp">unsigned long</span> now = <span class="fn-c">millis</span>();
+
+  <span class="cm">// حماية من الارتداد (Debounce): تجاهل أي ضغطة خلال 250ms</span>
+  <span class="kw">if</span> (now - lastButtonInterruptMs >= BUTTON_DEBOUNCE_MS) {
+    profileToggleRequested = <span class="kw">true</span>; <span class="cm">// ضع علامة → loop() ستتعامل معها</span>
+    lastButtonInterruptMs = now;
+  }
+  <span class="cm">// لماذا علامة فقط وليس تنفيذ مباشر؟</span>
+  <span class="cm">// دالة المقاطعة يجب أن تكون قصيرة جداً. الحفظ في NVS بطيء →</span>
+  <span class="cm">// نضع علامة وتتولى loop() الباقي عند الاستجابة</span>
+}</pre>
+      <div class="warn-box" style="margin-top:10px">
+        <div class="box-title" style="color:var(--amber)">⚠️ ما هو ارتداد الزر؟</div>
+        <div class="box-body">الزر الميكانيكي عند ضغطه يرتد مئات المرات في جزء من الثانية (ON/OFF بسرعة كبيرة) قبل أن يستقر. بدون Debounce، ضغطة واحدة تُحسب 50 ضغطة. مع 250ms تأخير، نضمن أن نقرأ الضغطة الأولى فقط.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FN 8: handleRoot + handleStatus -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">8</div>
+      <div>
+        <div class="fn-name">handleRoot() &amp; handleStatus()</div>
+        <div class="fn-name-ar">خادم الويب — يُقدّم الصفحة ويُجيب عن الحالة</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what"><code>handleRoot()</code> تُولّد صفحة HTML كاملة داخل الكود وتُرسلها للمتصفح عند فتح <code>192.168.4.1</code>. <code>handleStatus()</code> تُرجع بيانات الحساسات والحالة بصيغة JSON — يستدعيها المتصفح كل ثانيتين تلقائياً لتحديث الأرقام على الشاشة.</div>
+      <div class="fn-analogy"><code>handleRoot</code> مثل نادل يُقدّم القائمة كاملةً. <code>handleStatus</code> مثل النادل يُجيب على سؤال "هل الطلب جاهز؟" كل دقيقتين.</div>
+<pre><span class="kw">void</span> <span class="fn-c">handleRoot</span>() {
+  <span class="cm">// يبني صفحة HTML كاملة بداخل String ويُرسلها</span>
+  String html = <span class="str">"&lt;!DOCTYPE html&gt;...&lt;/html&gt;"</span>;
+  <span class="cm">// الصفحة تحتوي على JavaScript يُرسل طلبات لـ /status كل 2 ثانية</span>
+  server.<span class="fn-c">send</span>(<span class="num">200</span>, <span class="str">"text/html"</span>, html); <span class="cm">// 200 = OK</span>
+}
+
+<span class="kw">void</span> <span class="fn-c">handleStatus</span>() {
+  <span class="cm">// يُنشئ كائن JSON بالبيانات الحالية ويُرسله</span>
+  String json = <span class="str">"{"</span>;
+  json += <span class="str">"\"dryerTemp\":"</span>    + String(dryerTempC, <span class="num">2</span>) + <span class="str">","</span>;
+  json += <span class="str">"\"dryerHumidity\":"</span> + String(dryerHumidity, <span class="num">2</span>) + <span class="str">","</span>;
+  json += <span class="str">"\"collectorTemp\":"</span> + String(collectorTempC, <span class="num">2</span>) + <span class="str">","</span>;
+  json += <span class="str">"\"mode\":\""</span>        + <span class="fn-c">modeToString</span>(controlMode) + <span class="str">"\","</span>;
+  json += <span class="str">"\"activeProfile\":"</span> + String(activeProfile) + <span class="str">","</span>;
+  json += <span class="str">"\"relays\":["</span>  + String(relays[<span class="num">0</span>].appliedState ? <span class="num">1</span>:<span class="num">0</span>) + <span class="str">","</span>
+                    + String(relays[<span class="num">1</span>].appliedState ? <span class="num">1</span>:<span class="num">0</span>) + <span class="str">","</span>
+                    + String(relays[<span class="num">2</span>].appliedState ? <span class="num">1</span>:<span class="num">0</span>) + <span class="str">"]"</span>;
+  json += <span class="str">"}"</span>;
+  server.<span class="fn-c">send</span>(<span class="num">200</span>, <span class="str">"application/json"</span>, json);
+}</pre>
+    </div>
+  </div>
+
+  <!-- FN 9: API handlers -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">9</div>
+      <div>
+        <div class="fn-name">handleSetMode() · handleSetProfile() · handleSetRelay() · handleSetThresholds()</div>
+        <div class="fn-name-ar">معالجات أوامر الويب — تُطبّق ما يطلبه المستخدم</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">هذه الدوال تستجيب لطلبات HTTP GET من المتصفح. كل مرة تضغط على زر في الواجهة (مثل "حفظ الإعدادات" أو تبديل الوضع)، المتصفح يُرسل طلباً لأحد هذه المسارات، والدالة المناسبة تُطبّق التغيير وتحفظه.</div>
+      <div class="fn-analogy">مثل نظام الطلبات في مطعم: المتصفح = الزبون يُعطي الطلب، الدالة = النادل ينفّذ الطلب، <code>server.send(200)</code> = "حاضر يا أفندم!"</div>
+<pre><span class="kw">void</span> <span class="fn-c">handleSetMode</span>() {
+  <span class="cm">// مثال: طلب GET /setMode?mode=1</span>
+  <span class="kw">if</span> (!server.<span class="fn-c">hasArg</span>(<span class="str">"mode"</span>)) <span class="kw">return</span> server.<span class="fn-c">send</span>(<span class="num">400</span>, <span class="str">"text/plain"</span>, <span class="str">"missing mode"</span>);
+  <span class="tp">int</span> m = server.<span class="fn-c">arg</span>(<span class="str">"mode"</span>).<span class="fn-c">toInt</span>(); <span class="cm">// استخرج القيمة من الطلب</span>
+  controlMode = (m == <span class="num">1</span>) ? MODE_AUTO : MODE_MANUAL; <span class="cm">// طبّق التغيير</span>
+  <span class="fn-c">persistConfig</span>(); <span class="cm">// احفظ في الذاكرة</span>
+  server.<span class="fn-c">send</span>(<span class="num">200</span>, <span class="str">"text/plain"</span>, <span class="str">"OK"</span>); <span class="cm">// أخبر المتصفح بالنجاح</span>
+}
+
+<span class="kw">void</span> <span class="fn-c">handleSetRelay</span>() {
+  <span class="cm">// مثال: GET /setRelay?id=0&state=1 (شغّل مروحة التجفيف)</span>
+  <span class="kw">if</span> (controlMode != MODE_MANUAL) <span class="cm">// لا يعمل إلا في الوضع اليدوي!</span>
+    <span class="kw">return</span> server.<span class="fn-c">send</span>(<span class="num">409</span>, <span class="str">"text/plain"</span>, <span class="str">"manual mode only"</span>);
+  <span class="tp">int</span> id    = server.<span class="fn-c">arg</span>(<span class="str">"id"</span>).<span class="fn-c">toInt</span>();
+  <span class="tp">int</span> state = server.<span class="fn-c">arg</span>(<span class="str">"state"</span>).<span class="fn-c">toInt</span>();
+  <span class="fn-c">requestRelayState</span>(id, state == <span class="num">1</span>); <span class="cm">// ضع في الطابور</span>
+  server.<span class="fn-c">send</span>(<span class="num">200</span>, <span class="str">"text/plain"</span>, <span class="str">"OK"</span>);
+}</pre>
+      <div class="card" style="margin-top:12px">
+        <div class="card-title"><div class="dot" style="background:var(--cyan)"></div>جدول مسارات API</div>
+        <table>
+          <tr><th>المسار</th><th>المعاملات</th><th>الوظيفة</th></tr>
+          <tr><td class="td-mono">GET /</td><td>—</td><td>يُعطي صفحة HTML الرئيسية</td></tr>
+          <tr><td class="td-mono">GET /status</td><td>—</td><td>يُرجع JSON بالحرارة والرطوبة وحالة المراوح</td></tr>
+          <tr><td class="td-mono">GET /setMode</td><td class="td-mono">mode=0|1</td><td>0=يدوي، 1=تلقائي</td></tr>
+          <tr><td class="td-mono">GET /setProfile</td><td class="td-mono">profile=0|1</td><td>تبديل بين Profile 1 و 2</td></tr>
+          <tr><td class="td-mono">GET /setRelay</td><td class="td-mono">id=0-2 & state=0|1</td><td>تحكم يدوي بمروحة محددة (يدوي فقط)</td></tr>
+          <tr><td class="td-mono">GET /setThresholds</td><td class="td-mono">fanOn, exOn, hOn, hOff, colOff</td><td>حفظ قيم العتبات الجديدة</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA STRUCTURES -->
+  <div class="fn-card">
+    <div class="fn-header">
+      <div class="fn-num">+</div>
+      <div>
+        <div class="fn-name">struct ThresholdProfile &amp; struct RelayChannel</div>
+        <div class="fn-name-ar">هياكل البيانات — كيف تُنظَّم المعلومات في الذاكرة</div>
+      </div>
+    </div>
+    <div class="fn-body">
+      <div class="fn-what">البرنامج يُنظّم البيانات في "هياكل" (structs) لتسهيل التعامل معها. <code>ThresholdProfile</code> يحمل قيم العتبات لكل وضع. <code>RelayChannel</code> يحمل كل المعلومات المتعلقة بمروحة واحدة.</div>
+<pre><span class="cm">// ═══ هيكل الوضع (Profile) — 5 قيم لكل وضع ═══</span>
+<span class="kw">struct</span> ThresholdProfile {
+  <span class="tp">float</span> dryerFanOnTemp;          <span class="cm">// حرارة تشغيل مروحة التجفيف (°م)</span>
+  <span class="tp">float</span> dryerExhaustOnTemp;      <span class="cm">// حرارة تشغيل العادم (°م)</span>
+  <span class="tp">float</span> dryerExhaustOnHumidity;  <span class="cm">// رطوبة تشغيل العادم (%)</span>
+  <span class="tp">float</span> dryerExhaustOffHumidity; <span class="cm">// رطوبة إيقاف العادم (%) — Hysteresis</span>
+  <span class="tp">float</span> collectorFanOffTemp;     <span class="cm">// حرارة إيقاف مروحة المجمع (°م)</span>
+};
+
+<span class="cm">// ═══ هيكل المروحة — كل ما يخص مروحة واحدة ═══</span>
+<span class="kw">struct</span> RelayChannel {
+  <span class="tp">uint8_t</span>      pin;           <span class="cm">// رقم GPIO</span>
+  String       label;         <span class="cm">// اسم المروحة (للعرض)</span>
+  <span class="tp">bool</span>         requestedState;<span class="cm">// الحالة المطلوبة (ما يريده البرنامج)</span>
+  <span class="tp">bool</span>         appliedState;  <span class="cm">// الحالة الفعلية (ما هو مطبّق على الـ MOSFET)</span>
+  <span class="tp">unsigned long</span> lastChangeMs; <span class="cm">// وقت آخر تغيير فعلي (للـ MIN_TIME)</span>
+};</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 6: PROTECTION
+═══════════════════════════════════════════════════ -->
+<div id="pane-protection" class="pane">
+  <div class="sec-title">🛡️ الحماية الكهربائية</div>
+  <div class="sec-sub">كل عنصر حماية في الدائرة مع شرح مبسّط لماذا نحتاجه وماذا يحدث بدونه.</div>
+
+  <div class="info-box" style="margin-bottom:20px">
+    <div class="box-title" style="color:var(--green)">💡 المبدأ الأساسي: فصل مجال الطاقة عن مجال المنطق</div>
+    <div class="box-body">
+      <strong>مجال الطاقة (12V):</strong> البطارية → المراوح عبر MOSFET مباشرة — التيار الكبير.<br>
+      <strong>مجال المنطق (3.3V):</strong> البطارية → محوّلات → ESP32 + حساسات — التيار الصغير الدقيق.<br>
+      <em>الفصل يمنع الضوضاء الكهربائية للمراوح من التأثير على قراءات الحساسات وعمل ESP32.</em>
+    </div>
+  </div>
+
+  <div class="prot-card">
+    <div class="prot-icon">🔌</div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">Polyfuse — RXEF050 (5A)</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">فيوز ذاتي الإصلاح: عند تجاوز 5 أمبير يُقاوم التيار ويُوقفه، وعند البرودة يعود لطبيعته. لا تحتاج لاستبداله.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b-amber">موضع: مدخل البطارية</span>
+        <span class="badge b-green">يُصلح نفسه تلقائياً</span>
+      </div>
+    </div>
+    <div class="prot-why">قصر كهربائي → أسلاك تحترق → حريق!</div>
+  </div>
+
+  <div class="prot-card">
+    <div class="prot-icon">🔄</div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">P-MOSFET — IRF4905 — حماية القطبية العكسية</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">إذا وصّلت البطارية بالعكس (+ بدل −)، الـ P-MOSFET يُغلق الدائرة تماماً. الجهاز لا يعمل ببساطة — بدلاً من أن يتدمّر.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b-amber">موضع: بعد الفيوز</span>
+        <span class="badge b-cyan">شفاف تماماً في التشغيل الطبيعي</span>
+      </div>
+    </div>
+    <div class="prot-why">توصيل عكسي = تدمير فوري لكل المكوّنات!</div>
+  </div>
+
+  <div class="prot-card">
+    <div class="prot-icon">⚡</div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">TVS Diode — SMBJ12A — حماية الصواعق والارتفاعات</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">يمتص أي ارتفاع مفاجئ في الجهد (Transient Voltage) خلال نانوثانية واحدة. اللوح الشمسي والكابلات الطويلة تعمل كهوائي يلتقط تداخلات كهرومغناطيسية قد ترفع الجهد لـ 30-60V.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b-amber">موضع: على خط 12V</span>
+        <span class="badge b-green">يستجيب في نانوثانية واحدة</span>
+      </div>
+    </div>
+    <div class="prot-why">ارتفاع 60V لجزء من ثانية يُدمّر ESP32 بشكل غير مرئي!</div>
+  </div>
+
+  <div class="prot-card">
+    <div class="prot-icon">↩️</div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">Flyback Diodes — 1N5819 × 3 — حماية الطاقة الراجعة</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">عند إيقاف مروحة DC، الملف الكهربائي داخلها يُولّد جهداً عكسياً 60-100V لجزء من الثانية (Back EMF). الدايود يمتص هذه الطاقة ويحوّلها لحرارة بسيطة بدل أن تتجه للـ MOSFET.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b-amber">موضع: موازٍ لكل مروحة</span>
+        <span class="badge b-cyan">3 دايودات، مروحة لكل واحد</span>
+      </div>
+    </div>
+    <div class="prot-why">Back EMF يُدمّر MOSFET أولاً ثم يصل لـ GPIO في ESP32!</div>
+  </div>
+
+  <div class="prot-card">
+    <div class="prot-icon">🔋</div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">مكثفات Decoupling — 100µF + 10µF + 100nF</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">ثلاث طبقات تصفية: كل مكثف يمتص ترددات مختلفة من الضوضاء الكهربائية. نتيجة: جهد 3.3V نظيف تماماً وصولاً لـ ESP32 والحساسات.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b-amber">موضع: على خط 3.3V قرب ESP32</span>
+        <span class="badge b-green">تصفية ثلاثية المراحل</span>
+      </div>
+    </div>
+    <div class="prot-why">ضوضاء عالية التردد → ESP32 يُعيد تشغيل نفسه وقراءات خاطئة!</div>
+  </div>
+
+  <div class="prot-card">
+    <div class="prot-icon">📦</div>
+    <div>
+      <div style="font-size:14px;font-weight:800;color:#fff;margin-bottom:6px">مكثف Bulk — 470µF / 25V</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:8px">عند تشغيل 3 مراوح معاً، التيار المسحوب يقفز فجأة. هذا المكثف الكبير يُغذّي الدائرة من مخزونه خلال هذه القفزة، فلا ينخفض الجهد بما يُسبّب إعادة تشغيل ESP32.</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge b-amber">موضع: مدخل دائرة الطاقة</span>
+        <span class="badge b-cyan">بنك طاقة صغير</span>
+      </div>
+    </div>
+    <div class="prot-why">تشغيل 3 مراوح دفعة = انهيار الجهد = إعادة تشغيل ESP32!</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PANE 7: TESTING
+═══════════════════════════════════════════════════ -->
+<div id="pane-testing" class="pane">
+  <div class="sec-title">🧪 مراحل الاختبار</div>
+  <div class="sec-sub">اختبر كل مكوّن على حدة قبل تشغيل النظام الكامل — هذا يوفّر وقتاً ويمنع أضراراً.</div>
+
+  <div class="warn-box" style="margin-bottom:20px">
+    <div class="box-title" style="color:var(--amber)">⚠️ قاعدة ذهبية قبل أي اختبار</div>
+    <div class="box-body">اقطع الكهرباء قبل أي تعديل في التوصيلات. تأكد من صحة القطبية (+/−) قبل التشغيل. ابدأ دائماً بأقل عدد من المكوّنات الموصّلة.</div>
+  </div>
+
+  <div class="phases">
+    <div class="phase"><div class="ph-num g">0</div><div class="ph-body">
+      <div class="ph-title">فحص البطارية والجهد الأساسي</div>
+      <div class="ph-desc">قِس جهد البطارية بفولتميتر — يجب أن يكون 12.0–13.8V. تأكد من صحة القطبية قبل أي توصيل.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num g">1</div><div class="ph-body">
+      <div class="ph-title">فحص محوّلات الجهد</div>
+      <div class="ph-desc">وصّل البطارية عبر طبقة الحماية. قِس: خرج MP1584 = 5V ±0.1V، خرج AMS1117 = 3.3V ±0.1V. لا تكمل قبل التأكد.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num g">2</div><div class="ph-body">
+      <div class="ph-title">ESP32 وحده — بدون أي أحمال</div>
+      <div class="ph-desc">وصّل 3.3V للـ ESP32 فقط. افتح Serial Monitor على 115200 baud. يجب أن يطبع رسائل كل ثانية بدون إعادة تشغيل لمدة 60 ثانية على الأقل.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num a">3</div><div class="ph-body">
+      <div class="ph-title">DHT22 — قراءة الحرارة والرطوبة</div>
+      <div class="ph-desc">أضف DHT22 على GPIO16 مع مقاومة pull-up 4.7kΩ. تأكد من قراءات منطقية (حرارة الغرفة ±2°م). قيمة NaN = مقاومة pull-up مفقودة.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num a">4</div><div class="ph-body">
+      <div class="ph-title">DS18B20 — حساس المجمع الشمسي</div>
+      <div class="ph-desc">أضف DS18B20 على GPIO4 مع 4.7kΩ pull-up. قراءة مستقرة ±0.5°م. قيمة -127 تعني مشكلة في pull-up أو التوصيل.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num r">5</div><div class="ph-body">
+      <div class="ph-title">⚠️ مروحة واحدة — اختبار MOSFET</div>
+      <div class="ph-desc">وصّل MOSFET واحد مع flyback diode. شغّل مروحة واحدة فقط. راقب: لا إعادة تشغيل لـ ESP32، لا سخونة في MOSFET. الـ flyback diode إجباري قبل هذه الخطوة!</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num r">6</div><div class="ph-body">
+      <div class="ph-title">⚠️ 3 مراوح معاً — اختبار حمل كامل</div>
+      <div class="ph-desc">أضف باقي المراوح. شغّلهن معاً. راقب جهد 3.3V — يجب ألا ينخفض تحت 3.0V. إذا انخفض: تحقق من مكثف الـ 470µF.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num a">7</div><div class="ph-body">
+      <div class="ph-title">زر تبديل الوضع — GPIO26</div>
+      <div class="ph-desc">وصّل الزر بين GPIO26 وGND. اضغط وتأكد من التبديل بين Profile 1 و2 في Serial Monitor. لاحظ أن الضغطة الواحدة تُسجَّل مرة واحدة فقط (Debounce يعمل).</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num a">8</div><div class="ph-body">
+      <div class="ph-title">WiFi وواجهة الويب</div>
+      <div class="ph-desc">اتصل بشبكة "Smart Hybrid solar dehydrator system" (كلمة السر: aboSalah). افتح 192.168.4.1. تأكد من ظهور الصفحة وتحديث الأرقام كل ثانيتين.</div>
+    </div></div>
+
+    <div class="phase"><div class="ph-num g">9</div><div class="ph-body">
+      <div class="ph-title">✅ النظام الكامل — الاختبار الشامل</div>
+      <div class="ph-desc">شغّل كل شيء معاً. جرّب الوضع التلقائي والوضع اليدوي. اتركه 30 دقيقة مستمراً بدون إعادة تشغيل = نجاح! 🎉</div>
+    </div></div>
+  </div>
+
+  <div class="sep"></div>
+
+  <div class="card">
+    <div class="card-title"><div class="dot" style="background:var(--red)"></div>📦 المكتبات المطلوبة في Arduino IDE</div>
+    <table>
+      <tr><th>المكتبة</th><th>المصدر</th><th>الاستخدام</th></tr>
+      <tr><td><strong>WiFi</strong></td><td class="td-green">مدمجة (ESP32 Core)</td><td>إنشاء شبكة WiFi</td></tr>
+      <tr><td><strong>WebServer</strong></td><td class="td-green">مدمجة (ESP32 Core)</td><td>خادم الويب</td></tr>
+      <tr><td><strong>Preferences</strong></td><td class="td-green">مدمجة (ESP32 Core)</td><td>حفظ الإعدادات</td></tr>
+      <tr><td><strong>OneWire</strong></td><td class="td-amber">Library Manager</td><td>بروتوكول DS18B20</td></tr>
+      <tr><td><strong>DallasTemperature</strong></td><td class="td-amber">Library Manager</td><td>قراءة DS18B20</td></tr>
+      <tr><td><strong>DHT sensor library</strong></td><td class="td-amber">Library Manager (Adafruit)</td><td>قراءة DHT22</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══ SCRIPT ═══ -->
+<script>
+function show(id, el) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+  document.getElementById('pane-' + id).classList.add('on');
+  if (el) el.classList.add('on');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+
+<!-- ═══ GUIDE FOOTER ═══ -->
+<footer style="background:var(--bg1);border-top:1px solid var(--border);padding:28px 24px;text-align:center;margin-top:20px">
+  <div style="max-width:1200px;margin:0 auto">
+    <div style="font-size:.9rem;font-weight:800;color:var(--text);margin-bottom:6px">☀️ ECODRY TECH — الدليل التقني الشامل</div>
+    <p style="font-size:.75rem;color:var(--text3);margin-bottom:14px">Faculty of Technology &amp; Education — Sohag University | © 2026</p>
+    <div style="display:flex;justify-content:center;gap:18px;flex-wrap:wrap">
+      <a href="index.html" style="color:var(--amber);font-size:.8rem;font-weight:600;text-decoration:none">🏠 الرئيسية</a>
+      <span style="color:var(--border2)">|</span>
+      <a href="benchmark-section.html" style="color:var(--green);font-size:.8rem;font-weight:600;text-decoration:none">📊 Benchmark</a>
+      <span style="color:var(--border2)">|</span>
+      <a href="solar_dryer_guide.html" style="color:var(--cyan);font-size:.8rem;font-weight:600;text-decoration:none">⚙️ Components Guide</a>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
